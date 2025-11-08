@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Entity_Combat : MonoBehaviour
 {
+    public float damage = 10f;
+
     [Header("Target Detection")]
     [SerializeField] private Transform targetCheck;
     [SerializeField] private float targetCheckRadius = 1;
@@ -11,7 +13,8 @@ public class Entity_Combat : MonoBehaviour
         
         foreach (var target in GetDetectedTargets())
         {
-            Debug.Log("Attacked " + target.name);
+            IDamagable damagable = target.GetComponent<IDamagable>();
+            damagable?.TakeDamage(damage, transform);
         }
     }
     private Collider2D[] GetDetectedTargets()

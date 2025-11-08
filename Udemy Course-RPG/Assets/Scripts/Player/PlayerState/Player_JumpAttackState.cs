@@ -12,7 +12,6 @@ public class Player_JumpAttackState : PlayerState
 
         player.SetVelocity(rb.linearVelocity.x + player.jumpAttackVelocity.x * player.facingDir, rb.linearVelocity.y + player.jumpAttackVelocity.y);
         touchGround = false;
-        Debug.Log("Enter Jump Attack State");
     }
     public override void Update()
     {

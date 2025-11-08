@@ -6,6 +6,8 @@ public class Enemy : Entity
     public Enemy_MoveState moveState;
     public Enemy_AttackState attackState;
     public Enemy_BattleState battleState;
+    public Enemy_StunnedState stunnedState;
+    public Enemy_DeadState deadState;
     [Header("Enemy Movement details")]
     public float idleTime = 2f;
     public float moveSpeed = 2.3f;
@@ -21,7 +23,33 @@ public class Enemy : Entity
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Transform playerCheck;
     [SerializeField] private float playerCheckDist;
-
+    public Transform player { get; private set; }
+    public override void EntityDeath()
+    {
+        base.EntityDeath();
+        stateMachine.ChangeState(deadState);
+    }
+    public void TryEnterBattleState(Transform playerTransform)
+    {
+        if(stateMachine.currentState == battleState || stateMachine.currentState == attackState)
+        {
+            return;
+        }
+        player = playerTransform;
+        stateMachine.ChangeState(battleState);
+    }
+    private void HendlePlayerDeath()
+    {
+        stateMachine.ChangeState(idleState);
+    }
+    public Transform GetPlayerReference()
+    {
+        if(player == null)
+        {
+            player = playerDetected().transform;
+        }
+        return player;
+    }
     public RaycastHit2D playerDetected()
     {
         RaycastHit2D hit2D = Physics2D.Raycast(playerCheck.position, Vector2.right * facingDir, playerCheckDist, playerLayer|groundLayer);
@@ -47,5 +75,13 @@ public class Enemy : Entity
         Gizmos.color = Color.gray;
         Gizmos.DrawLine(playerCheck.position, playerCheck.position + new Vector3(facingDir * minimumDistanceToPlayer, playerCheck.position.y));
     }
-
+    private void OnEnable()
+    {
+        Player.OnPlayerDeath += HendlePlayerDeath;
+    }
+    private void OnDisable()
+    {
+        Player.OnPlayerDeath -= HendlePlayerDeath;
+    }
 }
+

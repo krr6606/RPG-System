@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
@@ -25,6 +26,9 @@ public abstract class Entity : MonoBehaviour
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
 
+    private bool isKnockback;
+    private Coroutine knockbackCoroutine;
+
     public bool canDash;
 
     protected virtual void Awake()
@@ -50,9 +54,27 @@ public abstract class Entity : MonoBehaviour
     {
         stateMachine.currentState.CallAnimationTrigger();
     }
+    public virtual void EntityDeath()
+    {
 
+    }
+    public void Knockback(float knockbackTime, Vector2 knockbackForce)
+    {
+        if (knockbackCoroutine != null)
+            StopCoroutine(knockbackCoroutine);
+        knockbackCoroutine = StartCoroutine(KnockbackCoroutine(knockbackTime, knockbackForce));
+    }
+    private IEnumerator KnockbackCoroutine(float knockbackTime, Vector2 knockbackForce)
+    {
+        isKnockback = true;
+        rb.linearVelocity =knockbackForce;
+        yield return new WaitForSeconds(knockbackTime);
+        rb.linearVelocity = Vector2.zero;
+        isKnockback = false;
+    }
     public void SetVelocity(float xVelocity, float yVelocity)
     {
+        if(isKnockback) return;
         rb.linearVelocity = new Vector2(xVelocity, yVelocity);
         HandleFlip(xVelocity);
     }
