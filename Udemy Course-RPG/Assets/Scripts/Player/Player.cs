@@ -15,6 +15,7 @@ public class Player : Entity
     public Player_DashState dashState { get; private set; }
     public Player_BasicAttackState basicAttackState { get; private set; }
     public Player_JumpAttackState jumpAttackState { get; private set; }
+    public Player_CounterAttackState counterAttackState { get; private set; }
     public Player_DeadState deadState { get; private set; }
     [Header("Movement")]
     public float movementSpeed;
@@ -53,6 +54,7 @@ public class Player : Entity
         dashState = new Player_DashState(this, stateMachine, "DASH");
         basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
+        counterAttackState = new Player_CounterAttackState(this, stateMachine, "counterAttack");
         deadState = new Player_DeadState(this, stateMachine, "dead");
     }
     void OnEnable()

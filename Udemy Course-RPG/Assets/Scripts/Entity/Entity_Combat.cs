@@ -17,7 +17,7 @@ public class Entity_Combat : MonoBehaviour
             damagable?.TakeDamage(damage, transform);
         }
     }
-    private Collider2D[] GetDetectedTargets()
+    protected Collider2D[] GetDetectedTargets()
     {
       return  Physics2D.OverlapCircleAll(targetCheck.position, targetCheckRadius, targetLayer);
     }

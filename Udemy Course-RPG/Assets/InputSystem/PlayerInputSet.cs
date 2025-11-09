@@ -127,6 +127,15 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CountAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a9b1cc5a-1e88-47c4-b0ed-8b878b042021"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -217,6 +226,17 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
                     ""action"": ""Attak"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83ddaeff-f244-4acc-a301-09bfa8b643ca"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard & Mouse"",
+                    ""action"": ""CountAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -246,6 +266,7 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
         m_Player_jump = m_Player.FindAction("jump", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Attak = m_Player.FindAction("Attak", throwIfNotFound: true);
+        m_Player_CountAttack = m_Player.FindAction("CountAttack", throwIfNotFound: true);
     }
 
     ~@PlayerInputSet()
@@ -330,6 +351,7 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_jump;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Attak;
+    private readonly InputAction m_Player_CountAttack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -357,6 +379,10 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Attak".
         /// </summary>
         public InputAction @Attak => m_Wrapper.m_Player_Attak;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/CountAttack".
+        /// </summary>
+        public InputAction @CountAttack => m_Wrapper.m_Player_CountAttack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -395,6 +421,9 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
             @Attak.started += instance.OnAttak;
             @Attak.performed += instance.OnAttak;
             @Attak.canceled += instance.OnAttak;
+            @CountAttack.started += instance.OnCountAttack;
+            @CountAttack.performed += instance.OnCountAttack;
+            @CountAttack.canceled += instance.OnCountAttack;
         }
 
         /// <summary>
@@ -418,6 +447,9 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
             @Attak.started -= instance.OnAttak;
             @Attak.performed -= instance.OnAttak;
             @Attak.canceled -= instance.OnAttak;
+            @CountAttack.started -= instance.OnCountAttack;
+            @CountAttack.performed -= instance.OnCountAttack;
+            @CountAttack.canceled -= instance.OnCountAttack;
         }
 
         /// <summary>
@@ -499,5 +531,12 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttak(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CountAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCountAttack(InputAction.CallbackContext context);
     }
 }

@@ -14,7 +14,6 @@ public class Enemy_Health : Entity_Health
         {
             enemy.TryEnterBattleState(damageDealer);
         }
-            base.TakeDamage(damageAmount, damageDealer);
         // Additional enemy-specific damage logic can be added here
         Debug.Log("Enemy took " + damageAmount + " damage.");
     }

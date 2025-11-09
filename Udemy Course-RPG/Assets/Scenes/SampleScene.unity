@@ -298,8 +298,8 @@ GameObject:
   - component: {fileID: 100889843}
   - component: {fileID: 100889845}
   - component: {fileID: 100889846}
-  - component: {fileID: 100889847}
   - component: {fileID: 100889848}
+  - component: {fileID: 100889850}
   - component: {fileID: 100889849}
   m_Layer: 3
   m_Name: Player
@@ -426,24 +426,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.31269437}
   m_Size: {x: 0.8, y: 1.9746112}
   m_Direction: 0
---- !u!114 &100889847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100889842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d3e1203353dd34f8f5a2f4b315ef82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Entity_Combat
-  damage: 32.1
-  targetCheck: {fileID: 667405120}
-  targetCheckRadius: 1.24
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &100889848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,6 +460,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_VFX
   OnDamageMaterial: {fileID: 2100000, guid: 4181cad3a283691448a435b0864c3336, type: 2}
   OnDamageVfxDuration: 0.15
+--- !u!114 &100889850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100889842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61c955626f06404fa3b3d524c216325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_Combat
+  damage: 31.19
+  targetCheck: {fileID: 667405120}
+  targetCheckRadius: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  counterDuration: 0.18
 --- !u!1 &107058013
 GameObject:
   m_ObjectHideFlags: 0
@@ -8948,12 +8949,12 @@ GameObject:
   - component: {fileID: 1018979759}
   - component: {fileID: 1018979758}
   m_Layer: 7
-  m_Name: Circle
+  m_Name: CounterAlert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1018979758
 SpriteRenderer:
   m_ObjectHideFlags: 0
