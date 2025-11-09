@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Enemy_Skeleton : Enemy
+public class Enemy_Skeleton : Enemy,ICounterable
 {
+
     protected override void Awake()
     {
         base.Awake();
@@ -17,6 +18,18 @@ public class Enemy_Skeleton : Enemy
         base.Start();
         stateMachine.Initialize(idleState);
     }
+    protected override void Update()
+    {
+        base.Update();
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            HandleCounter();
+        }
+    }
+    public void HandleCounter()
+    {
+        if (!CanBeStunned) { return; }
+        stateMachine.ChangeState(stunnedState);
+    }
 
 }
- 
