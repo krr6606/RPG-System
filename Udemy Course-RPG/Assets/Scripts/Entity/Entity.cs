@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-
+    public event Action OnFlipped;
     protected StateMachin stateMachine;
     public Animator animator { get; private set; }
 
@@ -90,6 +91,8 @@ public abstract class Entity : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
         facingRihgt = !facingRihgt;
         facingDir *= -1;
+
+        OnFlipped?.Invoke();
     }
     private void HendleColisionDetection()
     {
