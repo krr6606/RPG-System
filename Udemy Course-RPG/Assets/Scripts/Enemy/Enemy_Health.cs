@@ -3,12 +3,12 @@ using UnityEngine;
 public class Enemy_Health : Entity_Health
 {
     private Enemy enemy => GetComponent<Enemy>();
-    public override void TakeDamage(float damageAmount, Transform damageDealer)
+    public override bool TakeDamage(float damageAmount, Transform damageDealer)
     {
-        base.TakeDamage(damageAmount, damageDealer);
-        if(isDead)
+        bool wasHit = base.TakeDamage(damageAmount, damageDealer);
+        if(!wasHit)
         {
-            return;
+            return false;
         }
         if (damageDealer.CompareTag("Player"))
         {
@@ -16,5 +16,6 @@ public class Enemy_Health : Entity_Health
         }
         // Additional enemy-specific damage logic can be added here
         Debug.Log("Enemy took " + damageAmount + " damage.");
+        return true;
     }
 }

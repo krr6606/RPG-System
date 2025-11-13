@@ -7,12 +7,13 @@ public class Chest : MonoBehaviour ,IDamagable
     [Header("Chest Settings")]
     [SerializeField] private Vector2 launchVelocity = new Vector2(0, 2f);
 
-    public void TakeDamage(float damageAmount, Transform damageDealer)
+    public bool TakeDamage(float damageAmount, Transform damageDealer)
     {
         GetComponentInChildren<Animator>()?.SetBool("ChestOpen", true);
         rb.linearVelocity = launchVelocity;
         rb.angularVelocity = Random.Range(-150f, 150f);
         entityVFX.PlayOnDamageVFX();
+        return true;
     }
 
 }

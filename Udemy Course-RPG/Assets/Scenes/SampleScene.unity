@@ -153,8 +153,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_VFX
   OnDamageMaterial: {fileID: 2100000, guid: 4181cad3a283691448a435b0864c3336, type: 2}
   OnDamageVfxDuration: 0.2
-  OnDoingDamageVFXColor: {r: 1, g: 1, b: 1, a: 1}
-  OnDoingDamageVFXPrefab: {fileID: 0}
+  HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
+  HitVFXPrefab: {fileID: 0}
+  CritHitVFXPrefab: {fileID: 0}
 --- !u!50 &9924456
 Rigidbody2D:
   serializedVersion: 5
@@ -303,6 +304,7 @@ GameObject:
   - component: {fileID: 100889848}
   - component: {fileID: 100889850}
   - component: {fileID: 100889849}
+  - component: {fileID: 100889851}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -441,7 +443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a69f9225dc9284409910a95a2d6917f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Health
-  maxHealth: 1000
   currentHealth: 0
   isDead: 0
   knockbackForce: {x: 1.26, y: 1.84}
@@ -463,8 +464,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_VFX
   OnDamageMaterial: {fileID: 2100000, guid: 4181cad3a283691448a435b0864c3336, type: 2}
   OnDamageVfxDuration: 0.15
-  OnDoingDamageVFXColor: {r: 1, g: 0.24777615, b: 0.17924517, a: 1}
-  OnDoingDamageVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
+  HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
+  HitVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
+  CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
 --- !u!114 &100889850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,6 +486,53 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   counterRecovery: 0.25
+--- !u!114 &100889851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100889842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572a27422ecdb1a4c86790e12717b414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
+  MaxHP:
+    baseValue: 100
+  majorStats:
+    strength:
+      baseValue: 0
+    agility:
+      baseValue: 0
+    intelligence:
+      baseValue: 0
+    vitality:
+      baseValue: 0
+  offenceStats:
+    damage:
+      baseValue: 10
+    critPower:
+      baseValue: 150
+    critChance:
+      baseValue: 100
+    fireDamage:
+      baseValue: 0
+    iceDamage:
+      baseValue: 0
+    lightningDamage:
+      baseValue: 0
+  defenceStats:
+    armour:
+      baseValue: 0
+    evasion:
+      baseValue: 94.9
+    fireResist:
+      baseValue: 0
+    iceResist:
+      baseValue: 0
+    lightningResist:
+      baseValue: 0
 --- !u!1 &107058013
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +674,7 @@ GameObject:
   - component: {fileID: 219137085}
   - component: {fileID: 219137086}
   - component: {fileID: 219137087}
+  - component: {fileID: 219137088}
   m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Enemy
@@ -783,7 +833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fd41af2c9b8224c91d75a34cae0ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Health
-  maxHealth: 1000
   currentHealth: 0
   isDead: 0
   knockbackForce: {x: 1.2, y: 1.76}
@@ -805,9 +854,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_VFX
   OnDamageMaterial: {fileID: 2100000, guid: 4181cad3a283691448a435b0864c3336, type: 2}
   OnDamageVfxDuration: 0.2
-  OnDoingDamageVFXColor: {r: 0.29678944, g: 0.26729542, b: 1, a: 1}
-  OnDoingDamageVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
+  HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
+  HitVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
+  CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
   counterWindowVFX: {fileID: 1018979757}
+--- !u!114 &219137088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219137080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572a27422ecdb1a4c86790e12717b414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
+  MaxHP:
+    baseValue: 100
+  majorStats:
+    strength:
+      baseValue: 0
+    agility:
+      baseValue: 0
+    intelligence:
+      baseValue: 0
+    vitality:
+      baseValue: 0
+  offenceStats:
+    damage:
+      baseValue: 0
+    critPower:
+      baseValue: 0
+    critChance:
+      baseValue: 0
+    fireDamage:
+      baseValue: 0
+    iceDamage:
+      baseValue: 0
+    lightningDamage:
+      baseValue: 0
+  defenceStats:
+    armour:
+      baseValue: 0
+    evasion:
+      baseValue: 0
+    fireResist:
+      baseValue: 0
+    iceResist:
+      baseValue: 0
+    lightningResist:
+      baseValue: 0
 --- !u!1 &321912541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,8 +1133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_VFX
   OnDamageMaterial: {fileID: 2100000, guid: 4181cad3a283691448a435b0864c3336, type: 2}
   OnDamageVfxDuration: 0.2
-  OnDoingDamageVFXColor: {r: 1, g: 1, b: 1, a: 1}
-  OnDoingDamageVFXPrefab: {fileID: 0}
+  HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
+  HitVFXPrefab: {fileID: 0}
+  CritHitVFXPrefab: {fileID: 0}
 --- !u!1 &482183346
 GameObject:
   m_ObjectHideFlags: 0

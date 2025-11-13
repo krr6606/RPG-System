@@ -6,7 +6,8 @@ public class Entity_Health : MonoBehaviour,IDamagable
     Slider healthBar;
     Entity_VFX entityVFX;
     private Entity entity;
-    [SerializeField] protected float maxHealth = 100f;
+    Entity_Stat entityStat;
+
     [SerializeField] protected float currentHealth;
     [SerializeField] protected bool isDead = false;
 
@@ -21,19 +22,33 @@ public class Entity_Health : MonoBehaviour,IDamagable
     {
         entityVFX = GetComponent<Entity_VFX>();
         entity = GetComponent<Entity>();
+        entityStat = GetComponent<Entity_Stat>();
         healthBar = GetComponentInChildren<Slider>();
-        currentHealth = maxHealth;
+        if(entityStat == null)
+        {
+            Debug.LogError("Entity_Stat component missing on " + gameObject.name);
+        }
+
+    }
+    void Start()
+    {
+        currentHealth = entityStat.GetMaxHP();
         UpdateHealthBar();
     }
-    public virtual void TakeDamage(float damageAmount, Transform damageDealer)
+    public virtual bool TakeDamage(float damageAmount, Transform damageDealer)
     {
-        if (isDead) return;
+        if (isDead) return false;
+        if (AttackEvaded())
+        {
+            Debug.Log("Attack Evaded!");
+            return false;
+        }
         Vector2 knockbackDir = CalculateKnockbackDirection(damageAmount, damageDealer);
         float knockbackDuration = CalculateDuration(damageAmount);
         entity?.Knockback(knockbackDuration, knockbackDir);
         entityVFX?.PlayOnDamageVFX();
         ReduceHP(damageAmount);
-
+        return true;
     }
     protected void ReduceHP(float damage)
     {
@@ -46,6 +61,10 @@ public class Entity_Health : MonoBehaviour,IDamagable
         }
     }
 
+    private bool AttackEvaded()
+    {
+        return UnityEngine.Random.Range(0,100) < entityStat.GetEvasion();
+    }
     private void Die()
     {
         isDead = true;
@@ -53,10 +72,14 @@ public class Entity_Health : MonoBehaviour,IDamagable
     }
     private void UpdateHealthBar()
     {
-        if (healthBar != null)
+        if (healthBar == null)
         {
-            healthBar.value = currentHealth / maxHealth;
+            Debug.LogWarning("Health bar not assigned in " + gameObject.name);
+            return;
         }
+
+            healthBar.value = currentHealth / entityStat.GetMaxHP();
+
     }
     private Vector2 CalculateKnockbackDirection(float damageAmount, Transform damageDealer)
     {
@@ -69,6 +92,6 @@ public class Entity_Health : MonoBehaviour,IDamagable
 
     private bool IsHeavyDamage(float damageAmount)
     {
-        return damageAmount > maxHealth * heavyDamageThreshold;
+        return damageAmount > entityStat.GetMaxHP() * heavyDamageThreshold;
     }
 }
