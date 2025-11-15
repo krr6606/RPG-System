@@ -4,7 +4,7 @@ using UnityEngine;
 public class Stat_DefenceGroup 
 {
     //Physical defence
-    public Stat armour;
+    public Stat armor;
     public Stat evasion;
 
     //Elemental defence

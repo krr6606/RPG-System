@@ -26,11 +26,33 @@ public class Entity_Stat : MonoBehaviour
 
         return fianlDamage;
     }
+    public float GetArmorMitigation(float armorReduction)
+    {
+        float baseArmour = defenceStats.armor.GetBaseValue();
+        float strengthBonus = majorStats.strength.GetBaseValue();
+        float totalArmour = baseArmour + strengthBonus;
+
+        float reductionMutliplier = Mathf.Clamp01(1 - armorReduction);
+        float effectiveArmour = totalArmour * reductionMutliplier;
+
+        float armourMitigation = totalArmour / (effectiveArmour + 100); // Example formula for mitigation (e.g 100 armour = 50% mitigation)
+
+        float mitigationCap = 0.9f;
+        armourMitigation = Mathf.Min(armourMitigation, mitigationCap);
+        return armourMitigation;
+    }
+    public float GetArmorReduction()
+    {
+        float finalArmorReduction = offenceStats.armorReduction.GetBaseValue()/100;
+
+        return finalArmorReduction;
+    }
     public float GetMaxHP()
     {
         float baseHP = MaxHP.GetBaseValue();
         float vitalityBonus = majorStats.vitality.GetBaseValue() * 5;
-        return baseHP + vitalityBonus;
+        float finalMaxHP = baseHP + vitalityBonus;
+        return finalMaxHP;
     }
     public float GetEvasion()
     {

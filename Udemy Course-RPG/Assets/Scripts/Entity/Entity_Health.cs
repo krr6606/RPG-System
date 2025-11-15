@@ -43,11 +43,20 @@ public class Entity_Health : MonoBehaviour,IDamagable
             Debug.Log("Attack Evaded!");
             return false;
         }
+        Entity_Stat dealerStat = damageDealer.GetComponent<Entity_Stat>();
+        float armorReduction = dealerStat != null ? dealerStat.GetArmorReduction() : 0f;
+
+        float mitigation = entityStat.GetArmorMitigation(armorReduction);
+        damageAmount *= (1 - mitigation); 
+
         Vector2 knockbackDir = CalculateKnockbackDirection(damageAmount, damageDealer);
         float knockbackDuration = CalculateDuration(damageAmount);
+
         entity?.Knockback(knockbackDuration, knockbackDir);
         entityVFX?.PlayOnDamageVFX();
+
         ReduceHP(damageAmount);
+        Debug.Log("Damage Taken: " + damageAmount);
         return true;
     }
     protected void ReduceHP(float damage)

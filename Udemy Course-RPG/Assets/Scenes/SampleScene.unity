@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
   MaxHP:
-    baseValue: 100
+    baseValue: 1000
   majorStats:
     strength:
       baseValue: 0
@@ -511,11 +511,13 @@ MonoBehaviour:
       baseValue: 0
   offenceStats:
     damage:
-      baseValue: 10
+      baseValue: 50
     critPower:
       baseValue: 150
     critChance:
-      baseValue: 100
+      baseValue: 0
+    armorReduction:
+      baseValue: 0
     fireDamage:
       baseValue: 0
     iceDamage:
@@ -523,10 +525,10 @@ MonoBehaviour:
     lightningDamage:
       baseValue: 0
   defenceStats:
-    armour:
-      baseValue: 0
+    armor:
+      baseValue: 50
     evasion:
-      baseValue: 94.9
+      baseValue: 0
     fireResist:
       baseValue: 0
     iceResist:
@@ -871,7 +873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
   MaxHP:
-    baseValue: 100
+    baseValue: 1000
   majorStats:
     strength:
       baseValue: 0
@@ -883,11 +885,13 @@ MonoBehaviour:
       baseValue: 0
   offenceStats:
     damage:
-      baseValue: 0
+      baseValue: 100
     critPower:
       baseValue: 0
     critChance:
       baseValue: 0
+    armorReduction:
+      baseValue: 30
     fireDamage:
       baseValue: 0
     iceDamage:
@@ -895,7 +899,7 @@ MonoBehaviour:
     lightningDamage:
       baseValue: 0
   defenceStats:
-    armour:
+    armor:
       baseValue: 0
     evasion:
       baseValue: 0
