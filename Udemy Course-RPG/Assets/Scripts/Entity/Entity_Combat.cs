@@ -20,9 +20,12 @@ public class Entity_Combat : MonoBehaviour
         foreach (var target in GetDetectedTargets())
         {
             IDamagable damagable = target.GetComponent<IDamagable>();
+
             if (damagable ==null) continue;
+
             bool isCrit = false; 
-            bool targetGoHit = damagable.TakeDamage(entityStat.GetPhysicalDamage(out isCrit), transform);
+            float elementalDamage = entityStat.GetElementalDamage(out ElementType elementType);
+            bool targetGoHit = damagable.TakeDamage(entityStat.GetPhysicalDamage(out isCrit), elementalDamage,elementType, transform);
             if (!targetGoHit) return;
             entityVFX.CreateOnHitVFX(target.transform, isCrit);
         }

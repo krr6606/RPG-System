@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Entity_Stat : MonoBehaviour
 {
+
     public Stat MaxHP;
 
     public Stat_MagorGroup majorStats;
@@ -25,6 +26,61 @@ public class Entity_Stat : MonoBehaviour
         float fianlDamage = isCriticalHit ? basePhysicalDamage * totalCriticalPower : totalPhysicalDamage;
 
         return fianlDamage;
+    }
+    public float GetElementalDamage(out ElementType elementType)
+    {
+        float fireDamage = offenceStats.fireDamage.GetBaseValue();
+        float iceDamage = offenceStats.iceDamage.GetBaseValue();
+        float lightningDamage = offenceStats.lightningDamage.GetBaseValue();
+        
+        float bonusIntelligenceDamage = majorStats.intelligence.GetBaseValue();
+
+        float highestElementalDamage = fireDamage;
+        elementType = ElementType.Fire;
+        if(iceDamage > highestElementalDamage)
+        {
+            highestElementalDamage = iceDamage;
+            elementType = ElementType.Ice;
+        }
+        if(lightningDamage > highestElementalDamage)
+        {
+            highestElementalDamage = lightningDamage;
+            elementType = ElementType.Lightning;
+        }
+        if (highestElementalDamage == 0)
+        {
+            elementType = ElementType.None;
+            return 0;
+        }
+        float bonusFireDamage = fireDamage == highestElementalDamage ? 0 : fireDamage * 0.5f ;
+        float bonusIceDamage = iceDamage == highestElementalDamage ? 0 : iceDamage * 0.5f;      
+        float bonusLightningDamage = lightningDamage == highestElementalDamage ? 0 : lightningDamage * 0.5f;
+        float weakerElementsDamage = bonusFireDamage + bonusIceDamage + bonusLightningDamage;
+        float finalElementalDamage = highestElementalDamage + bonusIntelligenceDamage + weakerElementsDamage;
+        return finalElementalDamage;
+    }
+    public float GetElementalResistance(ElementType elementType)
+    {
+        float baseResistance = 0f;
+        float intelligenceBonus = majorStats.intelligence.GetBaseValue() * 0.5f;
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                baseResistance = defenceStats.fireResist.GetBaseValue();
+                break;
+            case ElementType.Ice:
+                baseResistance = defenceStats.iceResist.GetBaseValue();
+                break;
+            case ElementType.Lightning:
+                baseResistance = defenceStats.lightningResist.GetBaseValue();
+                break;
+            default:
+                return 0f;
+        }
+        float finalResistance = baseResistance + intelligenceBonus;
+        float ResistanceCap = 75f;
+        finalResistance = Mathf.Min(finalResistance, ResistanceCap);
+        return finalResistance;
     }
     public float GetArmorMitigation(float armorReduction)
     {
