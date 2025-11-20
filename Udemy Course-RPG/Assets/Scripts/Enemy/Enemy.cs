@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : Entity
@@ -30,6 +31,24 @@ public class Enemy : Entity
     [SerializeField] private Transform playerCheck;
     [SerializeField] private float playerCheckDist;
     public Transform player { get; private set; }
+
+    protected override IEnumerator SlowDownCoroutine(float duration, float slowAmount)
+    {
+        float originalMoveSpeed = moveSpeed;
+        float originalBattleMoveSpeed = battleMoveSpeed;
+        float originalAnimSpeed = animator.speed;
+        
+        float speedReductionFactor = 1f - slowAmount;
+        moveSpeed *= speedReductionFactor;
+        battleMoveSpeed *= speedReductionFactor;
+        animator.speed *= speedReductionFactor;
+
+        yield return new WaitForSeconds(duration);
+        moveSpeed = originalMoveSpeed;
+        battleMoveSpeed = originalBattleMoveSpeed;
+        animator.speed = originalAnimSpeed;
+    }
+
     public void EnableCounterWindow(bool enable)=>CanBeStunned = enable;
     public override void EntityDeath()
     {

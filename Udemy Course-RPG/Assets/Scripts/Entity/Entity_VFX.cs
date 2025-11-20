@@ -14,12 +14,15 @@ public class Entity_VFX : MonoBehaviour
     [SerializeField] Color HitVFXColor = Color.white;
     [SerializeField] GameObject HitVFXPrefab;
     [SerializeField] GameObject CritHitVFXPrefab;
-
+    [Header("Elemental Color Settings")]
+    [SerializeField] private Color chillVfxColor = Color.cyan;
+    private Color originalVfxColor;
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         entity = GetComponent<Entity>();
         originalMaterial = spriteRenderer.material;
+        originalVfxColor = HitVFXColor;
     }
     public void CreateOnHitVFX(Transform spawnPoint, bool isCrit)
     {
@@ -45,6 +48,52 @@ public class Entity_VFX : MonoBehaviour
             StopCoroutine(onDamageCoroutine);
 
         onDamageCoroutine = StartCoroutine(OnDamageVFX());
+    }
+    public void UpdateOnVfxColor(ElementType elementType)
+    {
+        switch(elementType)
+        {
+            case ElementType.Ice:
+                HitVFXColor = chillVfxColor;
+                break;
+            case ElementType.Fire:
+                HitVFXColor = Color.red;
+                break;
+            case ElementType.Lightning:
+                HitVFXColor = Color.yellow;
+                break;
+            case ElementType.None:
+                HitVFXColor = originalVfxColor;
+                break;
+            default:
+                HitVFXColor = originalVfxColor;
+                break;
+        }
+    }
+    public void PlayStatusVFX(float duration, ElementType elementType)
+    {
+        if(elementType == ElementType.Ice)
+        StartCoroutine(PlayStatusVFXCoroutine(duration, chillVfxColor));
+    }
+    private IEnumerator PlayStatusVFXCoroutine(float duration, Color effectColor)
+    {
+        float tickInterval = 0.25f;
+        float timer = 0f;
+
+        Color lightColor = effectColor * 1.2f;
+        Color darkColor = effectColor * 0.8f;
+        bool toggle = false;
+        while (timer < duration)
+        {
+            spriteRenderer.color = toggle ? lightColor : darkColor;
+            // Assume UpdateVFXColor is a method that updates the VFX color
+            // UpdateVFXColor(currentColor);
+            toggle = !toggle;
+            timer += tickInterval;
+            yield return new WaitForSeconds(tickInterval);
+       
+        }
+        spriteRenderer.color = Color.white;
     }
     private IEnumerator OnDamageVFX()
     {

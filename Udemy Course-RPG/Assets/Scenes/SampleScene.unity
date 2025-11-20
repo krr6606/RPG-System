@@ -156,6 +156,7 @@ MonoBehaviour:
   HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
   HitVFXPrefab: {fileID: 0}
   CritHitVFXPrefab: {fileID: 0}
+  chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!50 &9924456
 Rigidbody2D:
   serializedVersion: 5
@@ -305,6 +306,7 @@ GameObject:
   - component: {fileID: 100889850}
   - component: {fileID: 100889849}
   - component: {fileID: 100889851}
+  - component: {fileID: 100889852}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -467,6 +469,7 @@ MonoBehaviour:
   HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
   HitVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
   CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
+  chillVfxColor: {r: 0, g: 0.7002528, b: 1, a: 1}
 --- !u!114 &100889850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +488,8 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
+  chillDuration: 2
+  chillSlowAmount: 0.7
   counterRecovery: 0.25
 --- !u!114 &100889851
 MonoBehaviour:
@@ -502,7 +507,7 @@ MonoBehaviour:
     baseValue: 1000
   majorStats:
     strength:
-      baseValue: 0
+      baseValue: 10
     agility:
       baseValue: 0
     intelligence:
@@ -521,7 +526,7 @@ MonoBehaviour:
     fireDamage:
       baseValue: 0
     iceDamage:
-      baseValue: 0
+      baseValue: 10
     lightningDamage:
       baseValue: 0
   defenceStats:
@@ -530,11 +535,23 @@ MonoBehaviour:
     evasion:
       baseValue: 0
     fireResist:
-      baseValue: 10
+      baseValue: 0
     iceResist:
-      baseValue: 20
+      baseValue: 0
     lightningResist:
-      baseValue: 30
+      baseValue: 0
+--- !u!114 &100889852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100889842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c7fe9f02968814d9a9e937f520a81e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_StatusHendler
 --- !u!1 &107058013
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,6 +694,7 @@ GameObject:
   - component: {fileID: 219137086}
   - component: {fileID: 219137087}
   - component: {fileID: 219137088}
+  - component: {fileID: 219137089}
   m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Enemy
@@ -823,6 +841,8 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  chillDuration: 2
+  chillSlowAmount: 0.3
 --- !u!114 &219137086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,6 +879,7 @@ MonoBehaviour:
   HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
   HitVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
   CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
+  chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
   counterWindowVFX: {fileID: 1018979757}
 --- !u!114 &219137088
 MonoBehaviour:
@@ -893,9 +914,9 @@ MonoBehaviour:
     armorReduction:
       baseValue: 30
     fireDamage:
-      baseValue: 30
+      baseValue: 10
     iceDamage:
-      baseValue: 30
+      baseValue: 20
     lightningDamage:
       baseValue: 10
   defenceStats:
@@ -906,9 +927,21 @@ MonoBehaviour:
     fireResist:
       baseValue: 0
     iceResist:
-      baseValue: 0
+      baseValue: 0.1
     lightningResist:
       baseValue: 0
+--- !u!114 &219137089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219137080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c7fe9f02968814d9a9e937f520a81e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_StatusHendler
 --- !u!1 &321912541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1173,7 @@ MonoBehaviour:
   HitVFXColor: {r: 1, g: 1, b: 1, a: 1}
   HitVFXPrefab: {fileID: 0}
   CritHitVFXPrefab: {fileID: 0}
+  chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &482183346
 GameObject:
   m_ObjectHideFlags: 0

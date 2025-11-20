@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Entity
@@ -74,6 +75,41 @@ public class Player : Entity
     {
         base.Start();
         stateMachine.Initialize(idleState);
+    }
+    protected override IEnumerator SlowDownCoroutine(float duration, float slowAmount)
+    {
+        float originalMoveSpeed = movementSpeed;
+        float originalAnimSpeed = animator.speed;
+        float originalDashSpeed = dashSpeed;
+        float originalJumpForce = jumpForce;
+        Vector2 originalJumpAttackVelocity = jumpAttackVelocity;
+        Vector2[] originalAttackVelocity = (Vector2[])attackVelocity.Clone();
+        Vector2 orignalWallJumpForce = wallJumpForce;
+
+        float speedReductionFactor = 1f - slowAmount;
+
+        movementSpeed *= speedReductionFactor;
+        dashSpeed *= speedReductionFactor;
+        jumpForce *= speedReductionFactor;
+        wallJumpForce *= speedReductionFactor;
+        jumpAttackVelocity *= speedReductionFactor;
+        for (int i = 0; i < attackVelocity.Length; i++)
+        {
+            attackVelocity[i] *= speedReductionFactor;
+        }
+        animator.speed *= speedReductionFactor;
+        yield return new WaitForSeconds(duration);
+        movementSpeed = originalMoveSpeed;
+        dashSpeed = originalDashSpeed;
+        jumpForce = originalJumpForce;
+        wallJumpForce = orignalWallJumpForce;
+        jumpAttackVelocity = originalJumpAttackVelocity;
+        for (int i = 0; i < attackVelocity.Length; i++)
+        {
+            attackVelocity[i] = originalAttackVelocity[i];
+        }
+        animator.speed = originalAnimSpeed;
+
     }
     public override void EntityDeath()
     {

@@ -29,7 +29,7 @@ public abstract class Entity : MonoBehaviour
 
     private bool isKnockback;
     private Coroutine knockbackCoroutine;
-
+    private Coroutine slowDownCoroutine;
     public bool canDash;
 
     protected virtual void Awake()
@@ -59,6 +59,17 @@ public abstract class Entity : MonoBehaviour
     {
 
     }
+    public virtual void SlowDownEntity(float duration, float slowAmount)
+    {
+        if (slowDownCoroutine != null)
+            StopCoroutine(slowDownCoroutine);
+        slowDownCoroutine = StartCoroutine(SlowDownCoroutine(duration, slowAmount));
+    }
+    protected virtual IEnumerator SlowDownCoroutine(float duration, float slowAmount)
+    {
+        yield return null;
+    }
+
     public void Knockback(float knockbackTime, Vector2 knockbackForce)
     {
         if (knockbackCoroutine != null)
