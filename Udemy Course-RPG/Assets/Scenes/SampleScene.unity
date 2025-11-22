@@ -157,6 +157,7 @@ MonoBehaviour:
   HitVFXPrefab: {fileID: 0}
   CritHitVFXPrefab: {fileID: 0}
   chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
+  fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!50 &9924456
 Rigidbody2D:
   serializedVersion: 5
@@ -470,6 +471,7 @@ MonoBehaviour:
   HitVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
   CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
   chillVfxColor: {r: 0, g: 0.7002528, b: 1, a: 1}
+  fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &100889850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +492,8 @@ MonoBehaviour:
     m_Bits: 128
   chillDuration: 2
   chillSlowAmount: 0.7
+  burnDuration: 3
+  burnDamageScale: 0.5
   counterRecovery: 0.25
 --- !u!114 &100889851
 MonoBehaviour:
@@ -516,7 +520,7 @@ MonoBehaviour:
       baseValue: 0
   offenceStats:
     damage:
-      baseValue: 50
+      baseValue: 0
     critPower:
       baseValue: 150
     critChance:
@@ -524,9 +528,9 @@ MonoBehaviour:
     armorReduction:
       baseValue: 0
     fireDamage:
-      baseValue: 0
+      baseValue: 100
     iceDamage:
-      baseValue: 10
+      baseValue: 0
     lightningDamage:
       baseValue: 0
   defenceStats:
@@ -843,6 +847,8 @@ MonoBehaviour:
     m_Bits: 8
   chillDuration: 2
   chillSlowAmount: 0.3
+  burnDuration: 3
+  burnDamageScale: 0.5
 --- !u!114 &219137086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,6 +886,7 @@ MonoBehaviour:
   HitVFXPrefab: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
   CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
   chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
+  fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
   counterWindowVFX: {fileID: 1018979757}
 --- !u!114 &219137088
 MonoBehaviour:
@@ -1174,6 +1181,7 @@ MonoBehaviour:
   HitVFXPrefab: {fileID: 0}
   CritHitVFXPrefab: {fileID: 0}
   chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
+  fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &482183346
 GameObject:
   m_ObjectHideFlags: 0

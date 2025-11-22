@@ -12,6 +12,9 @@ public class Entity_Combat : MonoBehaviour
     [Header("Status Effect Settings")]
     [SerializeField] private float chillDuration = 2f;
     [SerializeField] private float chillSlowAmount = 0.3f;
+    [SerializeField] private float burnDuration = 3f;
+    [Range(0f, 1f)]
+    [SerializeField] private float burnDamageScale = 0.5f;
     private void Awake()
     {
         entityVFX = GetComponent<Entity_VFX>();
@@ -27,7 +30,7 @@ public class Entity_Combat : MonoBehaviour
             if (damagable ==null) continue;
 
             bool isCrit = false; 
-            float elementalDamage = entityStat.GetElementalDamage(out ElementType elementType);
+            float elementalDamage = entityStat.GetElementalDamage(out ElementType elementType, burnDamageScale);
             bool targetGoHit = damagable.TakeDamage(entityStat.GetPhysicalDamage(out isCrit), elementalDamage,elementType, transform);
             if(elementType != ElementType.None)
             {
@@ -48,6 +51,13 @@ public class Entity_Combat : MonoBehaviour
                 if(statusHendler.canBeApplied(elementType))
                 {
                     statusHendler.ApplyChilledEffect(chillDuration, chillSlowAmount);
+                }
+                break;
+            case ElementType.Fire:
+                if(statusHendler.canBeApplied(elementType))
+                {
+                    float burnTotalDamage = entityStat.offenceStats.fireDamage.GetBaseValue();
+                    statusHendler.ApplyBurnEffect(burnDuration, burnTotalDamage);
                 }
                 break;
                 // Add other element types here

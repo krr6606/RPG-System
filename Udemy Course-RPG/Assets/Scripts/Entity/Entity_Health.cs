@@ -7,6 +7,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
     Entity_VFX entityVFX;
     private Entity entity;
     Entity_Stat entityStat;
+    Entity_Health entityHealth;
 
     [SerializeField] protected float currentHealth;
     [SerializeField] protected bool isDead = false;
@@ -24,10 +25,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
         entity = GetComponent<Entity>();
         entityStat = GetComponent<Entity_Stat>();
         healthBar = GetComponentInChildren<Slider>();
-        if(entityStat == null)
-        {
-            Debug.LogError("Entity_Stat component missing on " + gameObject.name);
-        }
+        entityHealth = GetComponent<Entity_Health>();
 
     }
     void Start()
@@ -67,7 +65,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
         entity?.Knockback(knockbackDuration, knockbackDir);
     }
 
-    protected void ReduceHP(float damage)
+    public void ReduceHP(float damage)
     {
         entityVFX?.PlayOnDamageVFX();
         currentHealth -= damage;

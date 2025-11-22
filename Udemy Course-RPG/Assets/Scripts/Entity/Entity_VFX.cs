@@ -16,6 +16,7 @@ public class Entity_VFX : MonoBehaviour
     [SerializeField] GameObject CritHitVFXPrefab;
     [Header("Elemental Color Settings")]
     [SerializeField] private Color chillVfxColor = Color.cyan;
+    [SerializeField] private Color fireVfxColor = Color.red;
     private Color originalVfxColor;
     private void Awake()
     {
@@ -73,7 +74,9 @@ public class Entity_VFX : MonoBehaviour
     public void PlayStatusVFX(float duration, ElementType elementType)
     {
         if(elementType == ElementType.Ice)
-        StartCoroutine(PlayStatusVFXCoroutine(duration, chillVfxColor));
+            StartCoroutine(PlayStatusVFXCoroutine(duration, chillVfxColor));
+        if(elementType == ElementType.Fire)
+            StartCoroutine(PlayStatusVFXCoroutine(duration, fireVfxColor));
     }
     private IEnumerator PlayStatusVFXCoroutine(float duration, Color effectColor)
     {
