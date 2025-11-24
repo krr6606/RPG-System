@@ -13,8 +13,12 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private float chillDuration = 2f;
     [SerializeField] private float chillSlowAmount = 0.3f;
     [SerializeField] private float burnDuration = 3f;
+    [SerializeField] private float electricChargeBulldUp = 0.4f;
     [Range(0f, 1f)]
     [SerializeField] private float burnDamageScale = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float electricDamageScale = 1.4f;
+    
     private void Awake()
     {
         entityVFX = GetComponent<Entity_VFX>();
@@ -30,7 +34,7 @@ public class Entity_Combat : MonoBehaviour
             if (damagable ==null) continue;
 
             bool isCrit = false; 
-            float elementalDamage = entityStat.GetElementalDamage(out ElementType elementType, burnDamageScale);
+            float elementalDamage = entityStat.GetElementalDamage(out ElementType elementType);
             bool targetGoHit = damagable.TakeDamage(entityStat.GetPhysicalDamage(out isCrit), elementalDamage,elementType, transform);
             if(elementType != ElementType.None)
             {
@@ -41,7 +45,7 @@ public class Entity_Combat : MonoBehaviour
             entityVFX.CreateOnHitVFX(target.transform, isCrit);
         }
     }
-    public void ApplyStatusEffect(Transform target,ElementType elementType)
+    public void ApplyStatusEffect(Transform target,ElementType elementType, float scaleFactor = 1)
     {
         Entity_StatusHendler statusHendler = target.GetComponent<Entity_StatusHendler>();
         if(statusHendler == null) return;
@@ -50,14 +54,23 @@ public class Entity_Combat : MonoBehaviour
             case ElementType.Ice:
                 if(statusHendler.canBeApplied(elementType))
                 {
-                    statusHendler.ApplyChilledEffect(chillDuration, chillSlowAmount);
+                    statusHendler.ApplyChillEffect(chillDuration, chillSlowAmount);
                 }
                 break;
             case ElementType.Fire:
                 if(statusHendler.canBeApplied(elementType))
                 {
-                    float burnTotalDamage = entityStat.offenceStats.fireDamage.GetBaseValue();
+                    scaleFactor = burnDamageScale;
+                    float burnTotalDamage = entityStat.offenceStats.fireDamage.GetBaseValue() * scaleFactor;
                     statusHendler.ApplyBurnEffect(burnDuration, burnTotalDamage);
+                }
+                break;
+            case ElementType.Lightning:
+                if(statusHendler.canBeApplied(elementType))
+                {
+                    scaleFactor = electricDamageScale;
+                    float electricDamage = entityStat.offenceStats.lightningDamage.GetBaseValue() * scaleFactor;
+                    statusHendler.ApplyElectricEffect(burnDuration, electricDamage, electricChargeBulldUp);
                 }
                 break;
                 // Add other element types here

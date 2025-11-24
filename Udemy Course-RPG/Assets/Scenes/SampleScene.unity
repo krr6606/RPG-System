@@ -158,6 +158,7 @@ MonoBehaviour:
   CritHitVFXPrefab: {fileID: 0}
   chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
   fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
+  electricVfxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!50 &9924456
 Rigidbody2D:
   serializedVersion: 5
@@ -472,6 +473,7 @@ MonoBehaviour:
   CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
   chillVfxColor: {r: 0, g: 0.7002528, b: 1, a: 1}
   fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
+  electricVfxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &100889850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +495,9 @@ MonoBehaviour:
   chillDuration: 2
   chillSlowAmount: 0.7
   burnDuration: 3
+  electricChargeBulldUp: 0.4
   burnDamageScale: 0.5
+  electricDamageScale: 1
   counterRecovery: 0.25
 --- !u!114 &100889851
 MonoBehaviour:
@@ -528,11 +532,11 @@ MonoBehaviour:
     armorReduction:
       baseValue: 0
     fireDamage:
-      baseValue: 100
+      baseValue: 0
     iceDamage:
       baseValue: 0
     lightningDamage:
-      baseValue: 0
+      baseValue: 100
   defenceStats:
     armor:
       baseValue: 50
@@ -556,6 +560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c7fe9f02968814d9a9e937f520a81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_StatusHendler
+  lightningVFXPrefab: {fileID: 4622548043322710453, guid: ac6caa10eaeebd842ad276407f104586, type: 3}
+  currentCharge: 0
+  maxCharge: 1
 --- !u!1 &107058013
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,7 +855,9 @@ MonoBehaviour:
   chillDuration: 2
   chillSlowAmount: 0.3
   burnDuration: 3
+  electricChargeBulldUp: 0.4
   burnDamageScale: 0.5
+  electricDamageScale: 1
 --- !u!114 &219137086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,6 +896,7 @@ MonoBehaviour:
   CritHitVFXPrefab: {fileID: 6472443136885938687, guid: c49eb96e7a53a5747a46b9b24ab77a8e, type: 3}
   chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
   fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
+  electricVfxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   counterWindowVFX: {fileID: 1018979757}
 --- !u!114 &219137088
 MonoBehaviour:
@@ -921,9 +931,9 @@ MonoBehaviour:
     armorReduction:
       baseValue: 30
     fireDamage:
-      baseValue: 10
+      baseValue: 0
     iceDamage:
-      baseValue: 20
+      baseValue: 0
     lightningDamage:
       baseValue: 10
   defenceStats:
@@ -949,6 +959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c7fe9f02968814d9a9e937f520a81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_StatusHendler
+  lightningVFXPrefab: {fileID: 4622548043322710453, guid: ac6caa10eaeebd842ad276407f104586, type: 3}
+  currentCharge: 0
+  maxCharge: 1
 --- !u!1 &321912541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,6 +1195,7 @@ MonoBehaviour:
   CritHitVFXPrefab: {fileID: 0}
   chillVfxColor: {r: 0, g: 1, b: 1, a: 1}
   fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
+  electricVfxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &482183346
 GameObject:
   m_ObjectHideFlags: 0
