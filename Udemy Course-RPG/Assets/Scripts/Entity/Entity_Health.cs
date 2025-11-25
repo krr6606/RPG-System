@@ -11,6 +11,10 @@ public class Entity_Health : MonoBehaviour,IDamagable
 
     [SerializeField] protected float currentHealth;
     [SerializeField] protected bool isDead = false;
+    [Header("Health Regeneration Settings")]
+    [SerializeField] protected bool canRegenerateHealth = false;
+    [SerializeField] protected float healthRegenInterval = 1;
+
 
     [Header("On Damage Knockback Settings")]
     [SerializeField] protected Vector2 knockbackForce;
@@ -32,6 +36,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
     {
         currentHealth = entityStat.GetMaxHP();
         UpdateHealthBar();
+        InvokeRepeating(nameof(RegegenerateHP), 0, healthRegenInterval);
     }
     public virtual bool TakeDamage(float damageAmount,float elementalDamage,ElementType elementType, Transform damageDealer)
     {
@@ -57,14 +62,19 @@ public class Entity_Health : MonoBehaviour,IDamagable
         return true;
     }
 
-    private void TakeKonkback(float damageAmount, Transform damageDealer)
+    private void RegegenerateHP()
     {
-        Vector2 knockbackDir = CalculateKnockbackDirection(damageAmount, damageDealer);
-        float knockbackDuration = CalculateDuration(damageAmount);
-
-        entity?.Knockback(knockbackDuration, knockbackDir);
+        if(!canRegenerateHealth || isDead || currentHealth==entityStat.GetMaxHP()) return;
+        float regenAmount = entityStat.statResourceGroup.healthRegen.GetBaseValue();
+        IncreaseHP(regenAmount);
     }
-
+    public void IncreaseHP(float healAmount)
+    {
+        if (isDead) return;
+        float newHealth = currentHealth + healAmount;
+        currentHealth = Mathf.Min(newHealth, entityStat.GetMaxHP());
+        UpdateHealthBar();
+    }
     public void ReduceHP(float damage)
     {
         entityVFX?.PlayOnDamageVFX();
@@ -96,6 +106,13 @@ public class Entity_Health : MonoBehaviour,IDamagable
 
             healthBar.value = currentHealth / entityStat.GetMaxHP();
 
+    }
+    private void TakeKonkback(float damageAmount, Transform damageDealer)
+    {
+        Vector2 knockbackDir = CalculateKnockbackDirection(damageAmount, damageDealer);
+        float knockbackDuration = CalculateDuration(damageAmount);
+
+        entity?.Knockback(knockbackDuration, knockbackDir);
     }
     private Vector2 CalculateKnockbackDirection(float damageAmount, Transform damageDealer)
     {
