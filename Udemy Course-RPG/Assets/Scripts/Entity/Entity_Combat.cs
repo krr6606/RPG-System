@@ -61,7 +61,7 @@ public class Entity_Combat : MonoBehaviour
                 if(statusHendler.canBeApplied(elementType))
                 {
                     scaleFactor = burnDamageScale;
-                    float burnTotalDamage = entityStat.offenceStats.fireDamage.GetBaseValue() * scaleFactor;
+                    float burnTotalDamage = entityStat.offenceStats.fireDamage.GetValue() * scaleFactor;
                     statusHendler.ApplyBurnEffect(burnDuration, burnTotalDamage);
                 }
                 break;
@@ -69,7 +69,7 @@ public class Entity_Combat : MonoBehaviour
                 if(statusHendler.canBeApplied(elementType))
                 {
                     scaleFactor = electricDamageScale;
-                    float electricDamage = entityStat.offenceStats.lightningDamage.GetBaseValue() * scaleFactor;
+                    float electricDamage = entityStat.offenceStats.lightningDamage.GetValue() * scaleFactor;
                     statusHendler.ApplyElectricEffect(burnDuration, electricDamage, electricChargeBulldUp);
                 }
                 break;

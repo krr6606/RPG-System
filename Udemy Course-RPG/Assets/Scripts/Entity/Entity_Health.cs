@@ -65,7 +65,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
     private void RegegenerateHP()
     {
         if(!canRegenerateHealth || isDead || currentHealth==entityStat.GetMaxHP()) return;
-        float regenAmount = entityStat.statResourceGroup.healthRegen.GetBaseValue();
+        float regenAmount = entityStat.statResourceGroup.healthRegen.GetValue();
         IncreaseHP(regenAmount);
     }
     public void IncreaseHP(float healAmount)

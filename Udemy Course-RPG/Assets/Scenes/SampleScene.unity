@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61c955626f06404fa3b3d524c216325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Combat
-  damage: 31.19
+  damage: 30
   targetCheck: {fileID: 667405120}
   targetCheckRadius: 1
   targetLayer:
@@ -513,48 +513,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 572a27422ecdb1a4c86790e12717b414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
+  defaultStatSetup: {fileID: 11400000, guid: d87649507b548814b8b7dbfb157fe7e9, type: 2}
   statResourceGroup:
     maxHealth:
-      baseValue: 1000
+      baseValue: 100
+      statModifiers: []
     healthRegen:
-      baseValue: 40
+      baseValue: 0
+      statModifiers: []
   majorStats:
     strength:
-      baseValue: 10
+      baseValue: 0
+      statModifiers: []
     agility:
       baseValue: 0
+      statModifiers: []
     intelligence:
       baseValue: 0
+      statModifiers: []
     vitality:
       baseValue: 0
+      statModifiers: []
   offenceStats:
     attackSpeed:
       baseValue: 1
+      statModifiers: []
     damage:
-      baseValue: 0
+      baseValue: 10
+      statModifiers: []
     critPower:
       baseValue: 150
+      statModifiers: []
     critChance:
       baseValue: 0
+      statModifiers: []
     armorReduction:
       baseValue: 0
+      statModifiers: []
     fireDamage:
       baseValue: 0
+      statModifiers: []
     iceDamage:
       baseValue: 0
+      statModifiers: []
     lightningDamage:
-      baseValue: 100
+      baseValue: 0
+      statModifiers: []
   defenceStats:
     armor:
-      baseValue: 50
+      baseValue: 0
+      statModifiers: []
     evasion:
       baseValue: 0
+      statModifiers: []
     fireResist:
       baseValue: 0
+      statModifiers: []
     iceResist:
       baseValue: 0
+      statModifiers: []
     lightningResist:
       baseValue: 0
+      statModifiers: []
 --- !u!114 &100889852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,48 +939,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 572a27422ecdb1a4c86790e12717b414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
+  defaultStatSetup: {fileID: 11400000, guid: 9fed37b07124dd2419bf5d1309641947, type: 2}
   statResourceGroup:
     maxHealth:
-      baseValue: 1000
+      baseValue: 100
+      statModifiers: []
     healthRegen:
-      baseValue: 40
+      baseValue: 0
+      statModifiers: []
   majorStats:
     strength:
       baseValue: 0
+      statModifiers: []
     agility:
       baseValue: 0
+      statModifiers: []
     intelligence:
       baseValue: 0
+      statModifiers: []
     vitality:
       baseValue: 0
+      statModifiers: []
   offenceStats:
     attackSpeed:
       baseValue: 1
+      statModifiers: []
     damage:
-      baseValue: 100
+      baseValue: 10
+      statModifiers: []
     critPower:
-      baseValue: 0
+      baseValue: 150
+      statModifiers: []
     critChance:
       baseValue: 0
+      statModifiers: []
     armorReduction:
-      baseValue: 30
+      baseValue: 0
+      statModifiers: []
     fireDamage:
       baseValue: 0
+      statModifiers: []
     iceDamage:
       baseValue: 0
+      statModifiers: []
     lightningDamage:
-      baseValue: 10
+      baseValue: 0
+      statModifiers: []
   defenceStats:
     armor:
       baseValue: 0
+      statModifiers: []
     evasion:
       baseValue: 0
+      statModifiers: []
     fireResist:
       baseValue: 0
+      statModifiers: []
     iceResist:
-      baseValue: 0.1
+      baseValue: 0
+      statModifiers: []
     lightningResist:
       baseValue: 0
+      statModifiers: []
 --- !u!114 &219137089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20998,6 +21038,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Obj_Buff
   floatSpeed: 1
   floatRange: 0.5
+  buffs:
+  - Type: 7
+    Value: 30
+  - Type: 6
+    Value: 1.04
+  buffName: DamageBuff
   buffDuration: 5
   canBeUsed: 1
 --- !u!61 &2010049531
