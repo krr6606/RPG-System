@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0de047589e334143a458a85a2a82512, type: 3}
+  m_Name: Skill Data - Healing wisp
+  m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
+  cost: 0
+  Name: Healing wisp
+  Description: "\uACFC\uAC70\uC758 \uC790\uC2E0\uC774 \uC0AC\uB9DD \uC2DC \uCE58\uC720
+    \uD30C\uB3D9\uC744 \uBC29\uCD9C\uD569\uB2C8\uB2E4."
+  Icon: {fileID: -500313153, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
