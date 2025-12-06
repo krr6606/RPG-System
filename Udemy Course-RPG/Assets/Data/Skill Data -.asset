@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0de047589e334143a458a85a2a82512, type: 3}
-  m_Name: Skill Data - Healing wisp
+  m_Name: Skill Data -
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
   cost: 2
-  Name: Healing wisp
-  Description: "\uACFC\uAC70\uC758 \uBD84\uC2E0\uC774 \uC0AC\uB9DD \uC2DC \uCE58\uC720
-    \uD30C\uB3D9\uC744 \uBC29\uCD9C\uD569\uB2C8\uB2E4."
-  Icon: {fileID: -500313153, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
+  Name: "\uC794\uC0C1 \uD0C0\uACA9"
+  Description: "\uACFC\uAC70\uC758 \uBD84\uC2E0\uC774 1\uD68C \uACF5\uACA9\uD569\uB2C8\uB2E4."
+  Icon: {fileID: -1188300867, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
