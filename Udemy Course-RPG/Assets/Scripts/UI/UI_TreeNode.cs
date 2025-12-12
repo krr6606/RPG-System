@@ -6,6 +6,8 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private UI ui;
     private RectTransform rectTransform;
     private UI_SkillTree skillTree;
+    private UI_TreeConnectHandler connectionHandler;
+
 
     [Header("Unlock Details")]
     public UI_TreeNode[] neededNodes;
@@ -19,24 +21,34 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private int skillCost;
     [SerializeField] private string LockedColorHex = "#CBDFBF";
     private Color lastColor;
-    
+
     void Awake()
     {
         ui = GetComponentInParent<UI>();
         rectTransform = GetComponent<RectTransform>();
         skillTree = GetComponentInParent<UI_SkillTree>();
+        connectionHandler = GetComponent<UI_TreeConnectHandler>();
     }
     void Start()
     {
 
-      UpdateIconColor(GetColorByHex(LockedColorHex ));
+        UpdateIconColor(GetColorByHex(LockedColorHex));
 
+    }
+    public void Refund()
+    {
+        isUnlocked = false;
+        isLocked = false;
+        skillTree.AddSkillPoint(skillData.cost);
+        connectionHandler.ConnectionImageUnlockedColor(false);
+        UpdateIconColor(GetColorByHex(LockedColorHex));
     }
     private void Unlock()
     {
         isUnlocked = true;
         skillTree.RemoveSkillPoint(skillData.cost);
         LockConflictNodes();
+        connectionHandler.ConnectionImageUnlockedColor(true);
         UpdateIconColor(Color.white);
     }
     private bool isCanBeUnlocked()
@@ -49,7 +61,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         foreach (var node in neededNodes)
         {
             if (!node.isUnlocked)
-                return false; 
+                return false;
         }
         foreach (var node in conflictNodes)
         {
@@ -57,7 +69,7 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 return false;
         }
 
-            return true;
+        return true;
     }
     private void LockConflictNodes()
     {
@@ -77,37 +89,41 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-       Debug.Log("Tree node clicked: " + gameObject.name);
-         if (isCanBeUnlocked())
-         {
+        Debug.Log("Tree node clicked: " + gameObject.name);
+        if (isCanBeUnlocked())
+        {
             Unlock();
-         }
-         else 
-         {
+        }
+        else if (isLocked)
+        {
+            ui.toolTip.LockedSkillEffect();
+        }
+        else
+        {
             Debug.Log("Tree node cannot be unlocked: " + gameObject.name);
-         }
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ui.toolTip.ShowToolTip(true, rectTransform,this);
-        if (!isUnlocked)
-        {
-            UpdateIconColor(Color.white * 0.9f);
-            Debug.Log("Show tooltip for tree node: " + gameObject.name);
+        ui.toolTip.ShowToolTip(true, rectTransform, this);
+        if (isUnlocked || isLocked)
+            return;
+        Color newColor = Color.white * 0.9f;
+        newColor.a = 1f;
+        UpdateIconColor(newColor);
+        Debug.Log("Show tooltip for tree node: " + gameObject.name);
 
-        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.toolTip.ShowToolTip(false, rectTransform);
-        if (!isUnlocked)
-        {
-            UpdateIconColor(lastColor);
-            Debug.Log("Hide tooltip for tree node: " + gameObject.name);
+        if (isUnlocked || isLocked)
+            return;
+        UpdateIconColor(lastColor);
+        Debug.Log("Hide tooltip for tree node: " + gameObject.name);
 
-        }
     }
     private Color GetColorByHex(string hex)
     {

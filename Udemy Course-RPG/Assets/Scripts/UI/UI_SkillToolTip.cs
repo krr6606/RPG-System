@@ -1,9 +1,12 @@
+using System.Collections;
+
 using System.Text;
 using TMPro;
 using UnityEngine;
 
 public class UI_SkillToolTip : UI_ToolTip
 {
+    private UI ui;
     private UI_SkillTree skillTreeUI;
     [SerializeField] private TextMeshProUGUI skillNameText;
     [SerializeField] private TextMeshProUGUI skillDescriptionText;
@@ -12,13 +15,17 @@ public class UI_SkillToolTip : UI_ToolTip
     [Space]
     [SerializeField] private string metConditionHex;
     [SerializeField] private string unmetConditionHex;
+    [SerializeField] private string importantConditionHex;
     [SerializeField] private Color exampleColor;
-    [SerializeField] private string LockedSkillText = "<color=#CBDFBF>루트가 잠긴 스킬</color>";
+    [SerializeField] private string LockedSkillText = "루트가 잠긴 스킬";
+
+    private Coroutine textEffectCoroutine;
 
     protected override void Awake()
     {
         base.Awake();
-        skillTreeUI = GetComponentInParent<UI_SkillTree>();
+        ui = GetComponentInParent<UI>();
+        skillTreeUI = ui.GetComponentInChildren<UI_SkillTree>();
     }
     public override void ShowToolTip(bool show, RectTransform targetRect)
     {
@@ -35,8 +42,26 @@ public class UI_SkillToolTip : UI_ToolTip
         Skill_DataSO skillData = treeNode.skillData;
         skillNameText.text = skillData.Name;
         skillDescriptionText.text = skillData.Description;
-        skillRequirementsText.text = treeNode.isLocked ? LockedSkillText : GetRequirementsText(treeNode.skillData.cost, treeNode.neededNodes, treeNode.conflictNodes);
+        skillRequirementsText.text = treeNode.isLocked ? "<color=#CBDFBF>" + LockedSkillText + "</color>" : GetRequirementsText(treeNode.skillData.cost, treeNode.neededNodes, treeNode.conflictNodes);
         base.ShowToolTip(show, targetRect);
+    }
+    public void LockedSkillEffect()
+    {
+        if (textEffectCoroutine != null)
+            {
+            StopCoroutine(textEffectCoroutine);
+            }
+        textEffectCoroutine = StartCoroutine(TextBlinkEffectCoroutine(skillRequirementsText, 0.25f, 3f));
+    }
+    private IEnumerator TextBlinkEffectCoroutine(TextMeshProUGUI text, float blinkInterval, float blinkCount)
+    {
+        for (int i = 0; i < blinkCount; i++)
+        {
+            text.text = GetColoredText(LockedSkillText, importantConditionHex);
+            yield return new WaitForSeconds(blinkInterval);
+            text.text = GetColoredText(LockedSkillText, "#CBDFBF");
+            yield return new WaitForSeconds(blinkInterval);
+        }
     }
     private string GetRequirementsText(int skillCost, UI_TreeNode[] neededNode, UI_TreeNode[] conflictNodes)
     {
@@ -47,7 +72,7 @@ public class UI_SkillToolTip : UI_ToolTip
         foreach (var node in neededNode)
         {
             string nodeColor = node.isUnlocked ? metConditionHex : unmetConditionHex;
-            stringBuilder.AppendLine($"- <color={nodeColor}>{node.skillData.Name} 해금.</color>");
+            stringBuilder.AppendLine(GetColoredText(node.skillData.Name + " 해금", nodeColor));
         }
         if (conflictNodes.Length <= 0)
             return stringBuilder.ToString();
@@ -55,9 +80,14 @@ public class UI_SkillToolTip : UI_ToolTip
         foreach (var node in conflictNodes)
         {
             string nodeColor = node.isUnlocked ? unmetConditionHex : metConditionHex;
-            stringBuilder.AppendLine($"- <color={nodeColor}>{node.skillData.Name} 미해금.</color>");
+            stringBuilder.AppendLine(GetColoredText(node.skillData.Name + "미해금", nodeColor));
         }
 
         return stringBuilder.ToString();
     }
+    private string GetColoredText(string text, string hexColor)
+    {
+        return $"<color={hexColor}>{text}</color>";
+    }
+
 }
