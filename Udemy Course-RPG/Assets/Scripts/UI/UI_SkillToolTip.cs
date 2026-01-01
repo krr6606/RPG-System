@@ -25,7 +25,7 @@ public class UI_SkillToolTip : UI_ToolTip
     {
         base.Awake();
         ui = GetComponentInParent<UI>();
-        skillTreeUI = ui.GetComponentInChildren<UI_SkillTree>();
+        skillTreeUI = ui.GetComponentInChildren<UI_SkillTree>(true);
     }
     public override void ShowToolTip(bool show, RectTransform targetRect)
     {
@@ -71,6 +71,7 @@ public class UI_SkillToolTip : UI_ToolTip
         stringBuilder.AppendLine($"- <color={costcolor}> {skillCost} 스킬 포인트.</color>");
         foreach (var node in neededNode)
         {
+            if (node == null) continue;
             string nodeColor = node.isUnlocked ? metConditionHex : unmetConditionHex;
             stringBuilder.AppendLine(GetColoredText(node.skillData.Name + " 해금", nodeColor));
         }
@@ -79,15 +80,13 @@ public class UI_SkillToolTip : UI_ToolTip
 
         foreach (var node in conflictNodes)
         {
+            if (node == null) continue;
             string nodeColor = node.isUnlocked ? unmetConditionHex : metConditionHex;
             stringBuilder.AppendLine(GetColoredText(node.skillData.Name + "미해금", nodeColor));
         }
 
         return stringBuilder.ToString();
     }
-    private string GetColoredText(string text, string hexColor)
-    {
-        return $"<color={hexColor}>{text}</color>";
-    }
+
 
 }

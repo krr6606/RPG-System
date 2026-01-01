@@ -5,8 +5,13 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    private UI ui;
     public static event Action OnPlayerDeath;
     public PlayerInputSet inputSet { get; private set; }
+    public Player_SkillManager skillManager { get; private set; }
+    public Player_VFX playerVFX { get; private set; }
+
+    #region States variables
     public Player_IdleState idleState { get; private set; }
     public Player_MoveState moveState { get; private set; }
     public Player_JumpState jumpState { get; private set; }
@@ -18,6 +23,8 @@ public class Player : Entity
     public Player_JumpAttackState jumpAttackState { get; private set; }
     public Player_CounterAttackState counterAttackState { get; private set; }
     public Player_DeadState deadState { get; private set; }
+    #endregion
+
     [Header("Movement")]
     public float movementSpeed;
     public float jumpForce;
@@ -42,7 +49,11 @@ public class Player : Entity
     override protected void Awake()
     {
         base.Awake();
+        skillManager = GetComponent<Player_SkillManager>();
+        playerVFX = GetComponent<Player_VFX>();
+        ui = FindAnyObjectByType<UI>();
         inputSet = new PlayerInputSet();
+
         idleState = new Player_IdleState(this, stateMachine, "IDLE");
         moveState = new Player_MoveState(this, stateMachine, "MOVE");
 
@@ -63,6 +74,9 @@ public class Player : Entity
         inputSet.Enable();
         inputSet.Player.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputSet.Player.Movement.canceled += ctx => movementInput = Vector2.zero;
+
+        inputSet.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
+        inputSet.Player.Spell.performed += ctx => skillManager.shardSkill.TryUseSkill();
     }
 
 
@@ -75,6 +89,10 @@ public class Player : Entity
     {
         base.Start();
         stateMachine.Initialize(idleState);
+    }
+    public void TeleportToPosition(Vector3 targetPosition)
+    {
+        transform.position = targetPosition;
     }
     protected override IEnumerator SlowDownCoroutine(float duration, float slowAmount)
     {

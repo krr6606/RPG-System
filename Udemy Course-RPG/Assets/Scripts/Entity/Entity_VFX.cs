@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Entity_VFX : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
     Entity entity;
     [Header("VFX Settings")]
     [SerializeField] private Material OnDamageMaterial;
@@ -26,14 +26,15 @@ public class Entity_VFX : MonoBehaviour
         originalMaterial = spriteRenderer.material;
         originalVfxColor = HitVFXColor;
     }
-    public void CreateOnHitVFX(Transform spawnPoint, bool isCrit)
+    public void CreateOnHitVFX(Transform spawnPoint, bool isCrit, ElementType elementType)
     {
         if(HitVFXPrefab != null)
         {
 
            GameObject HitPrefab = isCrit ? CritHitVFXPrefab : HitVFXPrefab;
             GameObject vfxPrefab = Instantiate(HitPrefab, spawnPoint.position, Quaternion.identity);
-              var vfxSpriteRenderer = vfxPrefab.GetComponentInChildren<SpriteRenderer>();
+            var vfxSpriteRenderer = vfxPrefab.GetComponentInChildren<SpriteRenderer>();
+            //vfxSpriteRenderer.color = GetElementColor(elementType);
                 if(!isCrit)
                 {
                     vfxSpriteRenderer.color = HitVFXColor;
@@ -51,25 +52,21 @@ public class Entity_VFX : MonoBehaviour
 
         onDamageCoroutine = StartCoroutine(OnDamageVFX());
     }
-    public void UpdateOnVfxColor(ElementType elementType)
+
+    public Color GetElementColor(ElementType elementType)
     {
         switch(elementType)
         {
             case ElementType.Ice:
-                HitVFXColor = chillVfxColor;
-                break;
+                return chillVfxColor;
             case ElementType.Fire:
-                HitVFXColor = fireVfxColor;
-                break;
+                return fireVfxColor;
             case ElementType.Lightning:
-                HitVFXColor = electricVfxColor;
-                break;
+                return electricVfxColor;
             case ElementType.None:
-                HitVFXColor = originalVfxColor;
-                break;
+                return Color.white;
             default:
-                HitVFXColor = originalVfxColor;
-                break;
+                return Color.white;
         }
     }
     public void PlayStatusVFX(float duration, ElementType elementType)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,15 +29,17 @@ public class UI_TreeConnectHandler : MonoBehaviour
             
     }
 
-    private void OnValidate()
+    public UI_TreeNode[] GetChildNodes()
     {
-        if(ConnectionDetails.Length <= 0 || Connections.Length <= 0) return;
-        if (Connections.Length != ConnectionDetails.Length)
+        List<UI_TreeNode> childNodes = new List<UI_TreeNode>();
+        foreach(var detail in ConnectionDetails)
         {
-            Debug.LogWarning("Connections and Details length mismatch in UI_TreeConnectHandler.");
-            return;
+            if(detail.childNode != null)
+            {
+                childNodes.Add(detail.childNode.GetComponent<UI_TreeNode>());
+            }
         }
-        UpdateConnections();
+        return childNodes.ToArray();
     }
     private void UpdateConnections()
     {
@@ -70,4 +73,15 @@ public class UI_TreeConnectHandler : MonoBehaviour
     }
     public void SetConnectionImage(Image image) => connectionImage = image;
     public void SetPosition(Vector2 position) => rect.anchoredPosition = position;
+
+    private void OnValidate()
+    {
+        if (ConnectionDetails.Length <= 0 || Connections.Length <= 0) return;
+        if (Connections.Length != ConnectionDetails.Length)
+        {
+            Debug.LogWarning("Connections and Details length mismatch in UI_TreeConnectHandler.");
+            return;
+        }
+        UpdateConnections();
+    }
 }

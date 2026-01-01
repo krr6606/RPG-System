@@ -12,6 +12,9 @@ public class Obj_Chest : MonoBehaviour ,IDamagable
         GetComponentInChildren<Animator>()?.SetBool("ChestOpen", true);
         rb.linearVelocity = launchVelocity;
         rb.angularVelocity = Random.Range(-150f, 150f);
+        rb.simulated = false;
+        BoxCollider2D boxCollider = GetComponentInChildren<BoxCollider2D>();
+        boxCollider.enabled = false;
         entityVFX.PlayOnDamageVFX();
         return true;
     }

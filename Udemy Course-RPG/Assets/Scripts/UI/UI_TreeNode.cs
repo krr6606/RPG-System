@@ -33,6 +33,9 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
 
         UpdateIconColor(GetColorByHex(LockedColorHex));
+        if(skillData.unlockedByDefault)
+            Unlock();
+
 
     }
     public void Refund()
@@ -50,6 +53,8 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         LockConflictNodes();
         connectionHandler.ConnectionImageUnlockedColor(true);
         UpdateIconColor(Color.white);
+
+        skillTree.playerSkillManager.GetSkillByType(skillData.skillType).SetSkillUpgrade(skillData.upgradeData);
     }
     private bool isCanBeUnlocked()
     {
@@ -76,8 +81,17 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         foreach (var node in conflictNodes)
         {
             node.isLocked = true;
+            node.LockChildNodes();
         }
     }
+    public void LockChildNodes()
+    {
+        isLocked = true;
+        foreach (var node in connectionHandler.GetChildNodes())
+            node.LockChildNodes();
+
+    }
+
     private void UpdateIconColor(Color color)
     {
         if (skillIcon == null)
@@ -109,10 +123,9 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         ui.toolTip.ShowToolTip(true, rectTransform, this);
         if (isUnlocked || isLocked)
             return;
-        Color newColor = Color.white * 0.9f;
-        newColor.a = 1f;
-        UpdateIconColor(newColor);
-        Debug.Log("Show tooltip for tree node: " + gameObject.name);
+
+        ToggleNodeHighlight(true);
+
 
     }
 
@@ -121,9 +134,23 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         ui.toolTip.ShowToolTip(false, rectTransform);
         if (isUnlocked || isLocked)
             return;
-        UpdateIconColor(lastColor);
-        Debug.Log("Hide tooltip for tree node: " + gameObject.name);
 
+        ToggleNodeHighlight(false);
+
+
+    }
+    private void ToggleNodeHighlight(bool highlight)
+    {
+        if (highlight)
+        {
+            Color newColor = Color.white * 0.9f;
+            newColor.a = 1f;
+            UpdateIconColor(newColor);
+        }
+        else
+        {
+            UpdateIconColor(lastColor);
+        }
     }
     private Color GetColorByHex(string hex)
     {
@@ -133,6 +160,14 @@ public class UI_TreeNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             return color;
         }
         return Color.white;
+    }
+    private void OnDisable()
+    {
+        if(isLocked)
+            UpdateIconColor(GetColorByHex(LockedColorHex));
+
+        if(isUnlocked)
+            UpdateIconColor(Color.white);
     }
     private void OnValidate()
     {

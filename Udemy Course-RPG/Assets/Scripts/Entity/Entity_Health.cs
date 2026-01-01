@@ -87,6 +87,17 @@ public class Entity_Health : MonoBehaviour,IDamagable
         }
     }
 
+    public float GetHealthPercentage()
+    {
+        return currentHealth / entityStat.GetMaxHP();
+    }
+
+    public void SetHealthToPercent(float percent)
+    {
+        currentHealth = entityStat.GetMaxHP() * Mathf.Clamp01(percent);
+        UpdateHealthBar();
+    }
+
     private bool AttackEvaded()
     {
         return UnityEngine.Random.Range(0,100) < entityStat.GetEvasion();

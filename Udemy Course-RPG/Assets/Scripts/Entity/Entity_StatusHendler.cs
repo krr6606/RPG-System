@@ -21,6 +21,27 @@ public class Entity_StatusHendler : MonoBehaviour
         entity_VFX = GetComponent<Entity_VFX>();
         entity_Stat = GetComponent<Entity_Stat>();
     }
+    public void ApplyStatusEffect(ElementType elementType,ElementalEffectData elementalEffectData)
+    {
+        if(!canBeApplied(elementType))
+        {
+            return;
+        }
+        switch (elementType)
+        {
+            case ElementType.Ice:
+                ApplyChillEffect(elementalEffectData.chillDuration, elementalEffectData.chillSlowAmount);
+                break;
+            case ElementType.Fire:
+                ApplyBurnEffect(elementalEffectData.burnDuration, elementalEffectData.burnTotalDamage);
+                break;
+            case ElementType.Lightning:
+                ApplyElectricEffect(elementalEffectData.electricDuration, elementalEffectData.electricDamage, elementalEffectData.electricCharge);
+                break;
+            default:
+                break;
+        }
+    }
     public void ApplyChillEffect(float duration, float slowAmount)
     {
         float iceResistance = entity_Stat.GetElementalResistance(ElementType.Ice);

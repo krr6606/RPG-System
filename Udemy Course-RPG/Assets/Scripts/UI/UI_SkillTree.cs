@@ -4,6 +4,13 @@ public class UI_SkillTree : MonoBehaviour
 {
     public int skillPoints;
     [SerializeField] private UI_TreeConnectHandler[] parentNodes;
+    public Player_SkillManager playerSkillManager { get; private set; }
+    private void Awake()
+    {
+        playerSkillManager = FindAnyObjectByType<Player_SkillManager>();
+    }
+
+    [ContextMenu("Refund All Skills")]
     public void RefundAllskills()
     {
         UI_TreeNode[] allNodes = GetComponentsInChildren<UI_TreeNode>();
