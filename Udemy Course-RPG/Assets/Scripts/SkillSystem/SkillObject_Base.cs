@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SkillObject_Base : MonoBehaviour
 {
+    [SerializeField] private GameObject onHitVFX;
     [SerializeField] protected LayerMask EnemyMask;
     [SerializeField] protected Transform targetCheck;
     [SerializeField] protected float checkRadius = 0.5f;
@@ -10,27 +11,33 @@ public class SkillObject_Base : MonoBehaviour
     protected Entity_Stat entityStat;
     protected DamageScaleData damageScaleData;
     protected ElementType usedELementType;
+    protected bool targetGotHit; 
     protected Collider2D[] EnemiesAround(Transform transform, float radius)
     {
         return Physics2D.OverlapCircleAll(transform.position, radius, EnemyMask);
     }
     protected void DamageEnemiesInRadius(Transform transform, float radius)
     {
-        foreach (var enemy in EnemiesAround(transform, radius))
+        foreach (var target in EnemiesAround(transform, radius))
         {
-            IDamagable damagable = enemy.GetComponent<IDamagable>();
+            IDamagable damagable = target.GetComponent<IDamagable>();
             if(damagable == null)
                 continue;
-            float pyhsicalDamage = entityStat.GetPhysicalDamage(out bool isCrit,damageScaleData.physicalDamageScale);
-            float elementalDamage = entityStat.GetElementalDamage(out ElementType elementType, damageScaleData.elementalDamageScale);
+            AttackData attackData = entityStat.AttackData(damageScaleData);
 
-            damagable.TakeDamage(pyhsicalDamage, elementalDamage, elementType,transform);
-            if(elementType != ElementType.None)
+
+
+            targetGotHit = damagable.TakeDamage(attackData.pyhsicalDamage, attackData.elementalDamage, attackData.elementType,transform);
+            if (attackData.elementType != ElementType.None)
             {
-                ElementalEffectData elementalEffectData = new ElementalEffectData(entityStat, damageScaleData);
-                enemy.GetComponent<Entity_StatusHendler>()?.ApplyStatusEffect(elementType, elementalEffectData);
+                target.GetComponent<Entity_StatusHendler>()?.ApplyStatusEffect(attackData.elementType, attackData.effectData);
             }
-            usedELementType = elementType;
+            if (targetGotHit)
+            {
+                Instantiate(onHitVFX, target.transform.position, Quaternion.identity);
+            }
+
+            usedELementType = attackData.elementType;
         }
     }
     protected Transform TargetTracking()

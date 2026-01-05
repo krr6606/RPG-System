@@ -16,6 +16,8 @@ public class Skill_Base : MonoBehaviour
     protected virtual void Awake()
     {
         player = GetComponentInParent<Player>();
+        damageScaleData = new DamageScaleData();
+
     }
     private void Start()
     {
@@ -31,7 +33,7 @@ public class Skill_Base : MonoBehaviour
         cooldownTime = upgradeData.cooldownTime;
         damageScaleData = upgradeData.damageScaleData;
     }
-    public bool canUseSkill()
+    public virtual bool canUseSkill()
     {
         if (skillUpgradeType == SkillUpgradeType.None)
         {

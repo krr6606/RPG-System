@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971d65c1724157a44a4870a3412ec85c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillObgect_Shard
+  onHitVFX: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}
   EnemyMask:
     serializedVersion: 2
     m_Bits: 128

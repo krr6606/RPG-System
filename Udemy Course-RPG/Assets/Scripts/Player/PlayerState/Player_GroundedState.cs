@@ -24,5 +24,9 @@ public class Player_GroundedState : PlayerState
         {
             stateMachine.ChangeState(player.counterAttackState);
         }
+        if(playerInputSet.Player.RangeAttack.WasPressedThisFrame() && player.skillManager.swordThrowSkill.canUseSkill())
+        {
+            stateMachine.ChangeState(player.swordThrowState);
+        }
     }
 }

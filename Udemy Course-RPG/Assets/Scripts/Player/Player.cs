@@ -10,6 +10,8 @@ public class Player : Entity
     public PlayerInputSet inputSet { get; private set; }
     public Player_SkillManager skillManager { get; private set; }
     public Player_VFX playerVFX { get; private set; }
+    public Entity_Health health { get; private set; }
+    public Entity_StatusHendler statusHendler { get; private set; }
 
     #region States variables
     public Player_IdleState idleState { get; private set; }
@@ -22,6 +24,7 @@ public class Player : Entity
     public Player_BasicAttackState basicAttackState { get; private set; }
     public Player_JumpAttackState jumpAttackState { get; private set; }
     public Player_CounterAttackState counterAttackState { get; private set; }
+    public Player_SwordThrowState swordThrowState { get; private set; }
     public Player_DeadState deadState { get; private set; }
     #endregion
 
@@ -46,6 +49,7 @@ public class Player : Entity
     private Coroutine queueAttackCoroutine;
 
     public Vector2 movementInput { get; private set; }
+    public Vector2 mousePositionInput { get; private set; }
     override protected void Awake()
     {
         base.Awake();
@@ -53,6 +57,8 @@ public class Player : Entity
         playerVFX = GetComponent<Player_VFX>();
         ui = FindAnyObjectByType<UI>();
         inputSet = new PlayerInputSet();
+        health = GetComponent<Entity_Health>();
+        statusHendler = GetComponent<Entity_StatusHendler>();
 
         idleState = new Player_IdleState(this, stateMachine, "IDLE");
         moveState = new Player_MoveState(this, stateMachine, "MOVE");
@@ -67,16 +73,20 @@ public class Player : Entity
         basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
         counterAttackState = new Player_CounterAttackState(this, stateMachine, "counterAttack");
+        swordThrowState = new Player_SwordThrowState(this, stateMachine, "swordThrow");
         deadState = new Player_DeadState(this, stateMachine, "dead");
     }
     void OnEnable()
     {
         inputSet.Enable();
+        
+        inputSet.Player.Mouse.performed += ctx => mousePositionInput = ctx.ReadValue<Vector2>();
         inputSet.Player.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
         inputSet.Player.Movement.canceled += ctx => movementInput = Vector2.zero;
 
         inputSet.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
         inputSet.Player.Spell.performed += ctx => skillManager.shardSkill.TryUseSkill();
+
     }
 
 
