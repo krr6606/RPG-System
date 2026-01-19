@@ -3,7 +3,8 @@ using UnityEngine;
 public enum SkillType
 {
     Dash,
-    TimeEcho,
     TimeShard,
-    SwordThrow
+    SwordThrow,
+    TimeEcho,
+    DomainExpansion,
 }

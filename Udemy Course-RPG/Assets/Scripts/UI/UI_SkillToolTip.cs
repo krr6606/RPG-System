@@ -10,6 +10,7 @@ public class UI_SkillToolTip : UI_ToolTip
     private UI_SkillTree skillTreeUI;
     [SerializeField] private TextMeshProUGUI skillNameText;
     [SerializeField] private TextMeshProUGUI skillDescriptionText;
+    [SerializeField] private TextMeshProUGUI skillCooldownText;
     [SerializeField] private TextMeshProUGUI skillRequirementsText;
 
     [Space]
@@ -42,6 +43,7 @@ public class UI_SkillToolTip : UI_ToolTip
         Skill_DataSO skillData = treeNode.skillData;
         skillNameText.text = skillData.Name;
         skillDescriptionText.text = skillData.Description;
+        skillCooldownText.text = "재사용 대기 시간: " + skillData.upgradeData.cooldownTime + "초";
         skillRequirementsText.text = treeNode.isLocked ? "<color=#CBDFBF>" + LockedSkillText + "</color>" : GetRequirementsText(treeNode.skillData.cost, treeNode.neededNodes, treeNode.conflictNodes);
         base.ShowToolTip(show, targetRect);
     }

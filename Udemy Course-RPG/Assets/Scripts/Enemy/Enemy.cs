@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    public Enemy_Health health { get; private set; }
     public Enemy_IdleState idleState;
     public Enemy_MoveState moveState;
     public Enemy_AttackState attackState;
@@ -32,21 +33,34 @@ public class Enemy : Entity
     [SerializeField] private float playerCheckDist;
     public Transform player { get; private set; }
 
+    public float activeSlowMultiplier { get; private set; } = 1f;
+
+    public float GetMoveSpeed() => moveSpeed * activeSlowMultiplier;
+    public float GetBattleMoveSpeed() => battleMoveSpeed * activeSlowMultiplier;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        health = GetComponent<Enemy_Health>();
+    }
+
     protected override IEnumerator SlowDownCoroutine(float duration, float slowAmount)
     {
-        float originalMoveSpeed = moveSpeed;
-        float originalBattleMoveSpeed = battleMoveSpeed;
-        float originalAnimSpeed = animator.speed;
-        
-        float speedReductionFactor = 1f - slowAmount;
-        moveSpeed *= speedReductionFactor;
-        battleMoveSpeed *= speedReductionFactor;
-        animator.speed *= speedReductionFactor;
+
+
+        activeSlowMultiplier = 1f - slowAmount;
+
+        animator.speed *= activeSlowMultiplier;
 
         yield return new WaitForSeconds(duration);
-        moveSpeed = originalMoveSpeed;
-        battleMoveSpeed = originalBattleMoveSpeed;
-        animator.speed = originalAnimSpeed;
+        StopSlowDown();
+
+    }
+    public override void StopSlowDown()
+    {
+        activeSlowMultiplier = 1f;
+        animator.speed = 1f;
+        base.StopSlowDown();
     }
 
     public void EnableCounterWindow(bool enable)=>CanBeStunned = enable;
@@ -85,11 +99,7 @@ public class Enemy : Entity
         }
         return hit2D;
     }
-    protected override void Awake()
-    {
-        base.Awake();
 
-    }
 
     protected override void OnDrawGizmos()
     {

@@ -32,6 +32,6 @@ public class Skill_Dash : Skill_Base
     }
     private void CreateClone()
     {
-        Debug.Log("Dash Skill Used - Create Clone Effect");
+        player.skillManager.timeEchoSkill.CreateTimeEcho();
     }
 }

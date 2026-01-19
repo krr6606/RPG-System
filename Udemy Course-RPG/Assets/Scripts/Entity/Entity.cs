@@ -20,7 +20,7 @@ public abstract class Entity : MonoBehaviour
     [Header("Collision detection")]
     [SerializeField] private float groundCheckDist;
     [SerializeField] private float wallCheckDist;
-    [SerializeField] protected LayerMask groundLayer;
+    public LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform primarywallCheck;
     [SerializeField] private Transform secondaryWallCheck;
@@ -59,15 +59,32 @@ public abstract class Entity : MonoBehaviour
     {
 
     }
-    public virtual void SlowDownEntity(float duration, float slowAmount)
+    public virtual void SlowDownEntity(float duration, float slowAmount, bool canOverrideSlowEffect = false)
     {
         if (slowDownCoroutine != null)
-            StopCoroutine(slowDownCoroutine);
+        {
+            if (canOverrideSlowEffect)
+            {
+                StopCoroutine(slowDownCoroutine);
+            }
+            else
+            {
+                return;
+            }
+        }
         slowDownCoroutine = StartCoroutine(SlowDownCoroutine(duration, slowAmount));
     }
     protected virtual IEnumerator SlowDownCoroutine(float duration, float slowAmount)
     {
         yield return null;
+    }
+    public virtual void StopSlowDown()
+    {
+        if (slowDownCoroutine != null)
+        {
+            StopCoroutine(slowDownCoroutine);
+            slowDownCoroutine = null;
+        }
     }
 
     public void Knockback(float knockbackTime, Vector2 knockbackForce)

@@ -17,9 +17,9 @@ public class SkillObgect_Shard : SkillObject_Base
             return;
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
-    public void MoveTowardsTarget(float speed)
+    public void MoveTowardsTarget(float speed,Transform newTarget = null)
     {
-        target = TargetTracking();
+        target = newTarget == null ? TargetTracking()   :  newTarget;
         this.speed = speed;
     }
 
@@ -31,7 +31,7 @@ public class SkillObgect_Shard : SkillObject_Base
         float detonationDelay = skill_Shard.GetDetonationDelay();
         Invoke(nameof(Explode), detonationDelay);
     }
-    public void SetupShard(Skill_Shard skill_Shard, float detonationDelay, bool canMove, float shardSpeed)
+    public void SetupShard(Skill_Shard skill_Shard, float detonationDelay, bool canMove, float shardSpeed, Transform target = null)
     {
         this.skill_Shard = skill_Shard;
         entityStat = skill_Shard.player.entityStat;
@@ -40,7 +40,7 @@ public class SkillObgect_Shard : SkillObject_Base
         Invoke(nameof(Explode), detonationDelay);
         if(canMove)
         {
-            MoveTowardsTarget(shardSpeed);
+            MoveTowardsTarget(shardSpeed,target);
         }
     }
     public void Explode()

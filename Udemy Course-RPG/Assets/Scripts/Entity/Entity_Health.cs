@@ -10,11 +10,13 @@ public class Entity_Health : MonoBehaviour,IDamagable
     Entity_Health entityHealth;
 
     [SerializeField] protected float currentHealth;
-    [SerializeField] protected bool isDead = false;
     [Header("Health Regeneration Settings")]
     [SerializeField] protected bool canRegenerateHealth = false;
     [SerializeField] protected float healthRegenInterval = 1;
 
+    protected bool canTakeDamage = true;
+    public bool isDead { get; private set; }
+    public float lastDamageTaken { get; protected set; }
 
     [Header("On Damage Knockback Settings")]
     [SerializeField] protected Vector2 knockbackForce;
@@ -34,13 +36,21 @@ public class Entity_Health : MonoBehaviour,IDamagable
     }
     void Start()
     {
-        currentHealth = entityStat.GetMaxHP();
+        SetupHealth();
+    }
+
+    private void SetupHealth()
+    {
+        if (entityStat == null)
+            return;
+            currentHealth = entityStat.GetMaxHP();
         UpdateHealthBar();
         InvokeRepeating(nameof(RegegenerateHP), 0, healthRegenInterval);
     }
+
     public virtual bool TakeDamage(float damageAmount,float elementalDamage,ElementType elementType, Transform damageDealer)
     {
-        if (isDead) return false;
+        if (isDead || !canTakeDamage) return false;
         if (AttackEvaded())
         {
             Debug.Log("Attack Evaded!");
@@ -49,19 +59,20 @@ public class Entity_Health : MonoBehaviour,IDamagable
         Entity_Stat dealerStat = damageDealer.GetComponent<Entity_Stat>();
         float armorReduction = dealerStat != null ? dealerStat.GetArmorReduction() : 0f;
 
-        float mitigation = entityStat.GetArmorMitigation(armorReduction);
+        float mitigation = entityStat != null ? entityStat.GetArmorMitigation(armorReduction) : 0;
         float physicalDamageTaken = damageAmount * (1 - mitigation);
 
-        float elementalResist = entityStat.GetElementalResistance(elementType);
+        float elementalResist = entityStat != null ? entityStat.GetElementalResistance(elementType) : 0;
         float elementalDamageTaken = elementalDamage * (1 - elementalResist / 100f);
 
         TakeKonkback(physicalDamageTaken, damageDealer);
 
         ReduceHP(physicalDamageTaken + elementalDamageTaken);
 
+        lastDamageTaken = physicalDamageTaken + elementalDamageTaken;
         return true;
     }
-
+    public void SetCanTakeDamage(bool canTakeDamage) => this.canTakeDamage = canTakeDamage;
     private void RegegenerateHP()
     {
         if(!canRegenerateHealth || isDead || currentHealth==entityStat.GetMaxHP()) return;
@@ -100,9 +111,12 @@ public class Entity_Health : MonoBehaviour,IDamagable
 
     private bool AttackEvaded()
     {
-        return UnityEngine.Random.Range(0,100) < entityStat.GetEvasion();
+        if(entityStat == null) 
+            return false;
+        else
+            return UnityEngine.Random.Range(0, 100) < entityStat.GetEvasion();
     }
-    private void Die()
+    protected virtual void Die()
     {
         isDead = true;
         entity.EntityDeath();
@@ -136,6 +150,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
 
     private bool IsHeavyDamage(float damageAmount)
     {
+        if(entityStat == null) return false;
         return damageAmount > entityStat.GetMaxHP() * heavyDamageThreshold;
     }
 }

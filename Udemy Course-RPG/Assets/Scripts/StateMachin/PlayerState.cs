@@ -21,6 +21,7 @@ public abstract class PlayerState : EntityState
         skillManager = player.skillManager;
     }
 
+        // 언제든 스킬을 쓸 수 있는 상태
         public override void Update()
     {
         base.Update();
@@ -28,6 +29,21 @@ public abstract class PlayerState : EntityState
         {
             skillManager.dashSkill.SetSkillOnCooldown();
             stateMachine.ChangeState(player.dashState);
+        }
+        // 궁극기
+        if (playerInputSet.Player.UltimateSpell.WasPressedThisFrame() && skillManager.Skill_DomainExpansion.canUseSkill())
+        {
+            // 영역 전개 즉시 발동일 경우
+            if (skillManager.Skill_DomainExpansion.InstantDomain())
+            {
+                skillManager.Skill_DomainExpansion.CreateDomain();
+            }
+            else
+            {
+                stateMachine.ChangeState(player.ultimateAbilityState);
+            }
+            skillManager.Skill_DomainExpansion.SetSkillOnCooldown();
+
         }
     }
 
@@ -37,12 +53,14 @@ public abstract class PlayerState : EntityState
     {
         if(skillManager.dashSkill.canUseSkill() == false)
             return false;
-        if (player.wallDetected)
+        else if (player.wallDetected)
             return false;
-        if(stateMachine.currentState == player.dashState)
+        else if (stateMachine.currentState == player.dashState)
+            return false;
+        else if(stateMachine.currentState == player.dashState ||stateMachine.currentState == player.ultimateAbilityState)
             return false;
 
-        return true;
+    return true;
     }
     public override void UpdateAinmationParameters()
     {

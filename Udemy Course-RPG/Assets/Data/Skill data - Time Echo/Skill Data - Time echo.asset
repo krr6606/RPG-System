@@ -12,12 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0de047589e334143a458a85a2a82512, type: 3}
   m_Name: Skill Data - Time echo
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
-  cost: 1
-  upgradeData:
-    upgradeType: 0
-    cooldownTime: 0
-  skillType: 1
   Name: Time echo
   Description: "\uB2E4\uB978 \uC2DC\uAC04\uC758 \uBD84\uC2E0\uC744 \uBD88\uB7EC\uC635\uB2C8\uB2E4.\n(\uD604\uC7AC\uC758
     \uC790\uC2E0\uBCF4\uB2E4 -%\uC57D\uD568)"
   Icon: {fileID: -1775625400, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
+  unlockedByDefault: 0
+  cost: 1
+  upgradeData:
+    upgradeType: 15
+    cooldownTime: 0
+    damageScaleData:
+      physicalDamageScale: 1
+      elementalDamageScale: 1
+      chillDuration: 2.4
+      chillSlowAmountScale: 0.2
+      burnDuration: 3
+      burnDamageScale: 1
+      electricDuration: 2
+      electricDamageScale: 1
+      electricCharge: 0.4
+  skillType: 3

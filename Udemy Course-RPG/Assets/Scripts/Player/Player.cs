@@ -25,7 +25,9 @@ public class Player : Entity
     public Player_JumpAttackState jumpAttackState { get; private set; }
     public Player_CounterAttackState counterAttackState { get; private set; }
     public Player_SwordThrowState swordThrowState { get; private set; }
+    public Player_DomainExpansionState ultimateAbilityState { get; private set; }
     public Player_DeadState deadState { get; private set; }
+
     #endregion
 
     [Header("Movement")]
@@ -40,6 +42,9 @@ public class Player : Entity
     [Space]
     public float dashDuration;
     public float dashSpeed;
+    [Header("Ultimate ability details")]
+    public float riseSpeed = 25;
+    public float riseMaxDistance = 3.5f;
 
     [Header("Attack")]
     public Vector2[] attackVelocity;
@@ -74,6 +79,7 @@ public class Player : Entity
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
         counterAttackState = new Player_CounterAttackState(this, stateMachine, "counterAttack");
         swordThrowState = new Player_SwordThrowState(this, stateMachine, "swordThrow");
+        ultimateAbilityState = new Player_DomainExpansionState(this, stateMachine, "jumpFall");
         deadState = new Player_DeadState(this, stateMachine, "dead");
     }
     void OnEnable()
@@ -86,6 +92,7 @@ public class Player : Entity
 
         inputSet.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
         inputSet.Player.Spell.performed += ctx => skillManager.shardSkill.TryUseSkill();
+        inputSet.Player.Spell.performed += ctx => skillManager.timeEchoSkill.TryUseSkill();
 
     }
 

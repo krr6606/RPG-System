@@ -21,6 +21,15 @@ public class Entity_StatusHendler : MonoBehaviour
         entity_VFX = GetComponent<Entity_VFX>();
         entity_Stat = GetComponent<Entity_Stat>();
     }
+
+    public void RemoveAllNegativeStatusEffects()
+    {
+        StopAllCoroutines();
+        currentElementType = ElementType.None;
+        currentCharge = 0;
+        entity_VFX.StopStatusVFX();
+    }
+
     public void ApplyStatusEffect(ElementType elementType,ElementalEffectData elementalEffectData)
     {
         if(!canBeApplied(elementType))

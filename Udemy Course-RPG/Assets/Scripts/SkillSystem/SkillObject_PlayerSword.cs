@@ -3,21 +3,19 @@ using UnityEngine;
 public class SkillObject_PlayerSword : SkillObject_Base
 {
     protected Skill_SwordThrow Skill_SwordThrow;
-    protected Rigidbody2D rb;
 
     protected Transform playerTransform;
     protected bool shouldComeback;
     protected float comebackSpeed = 10f;
     protected float MaxAllowedDistance = 30f;
 
-    private void Update()
+    protected virtual void Update()
     {
         transform.right = rb.linearVelocity;
         HandleComeback();
     }
     public virtual void SetupSword(Skill_SwordThrow skill_SwordThrowMgr, Vector2 dir)
     {
-        rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = dir;
         this.Skill_SwordThrow = skill_SwordThrowMgr;
         playerTransform = skill_SwordThrowMgr.player.transform;
@@ -28,14 +26,17 @@ public class SkillObject_PlayerSword : SkillObject_Base
     public void SwordComebackOn() => shouldComeback = true;
     protected void HandleComeback()
     {
-        float distanceFromPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        float distanceFromPlayer = Vector2.Distance(transform.root.position, playerTransform.position);
         if(distanceFromPlayer > MaxAllowedDistance)
         {
             SwordComebackOn();
         }
         if (!shouldComeback)
             return;
-        rb.simulated = false;
+        if(rb.simulated)
+            rb.simulated = false;
+        if(transform.parent != null)
+            transform.parent = null;
         if (distanceFromPlayer > 25f)
         {
             Vector3 direction = transform.position - playerTransform.position;

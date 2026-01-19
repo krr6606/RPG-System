@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Entity_Combat : MonoBehaviour
 {
-    public float damage = 10f;
     Entity_VFX entityVFX;
     Entity_Stat entityStat;
 

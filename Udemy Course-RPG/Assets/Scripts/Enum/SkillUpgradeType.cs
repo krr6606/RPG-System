@@ -22,5 +22,21 @@ public enum SkillUpgradeType
     SwordThrow, //기본 업그레이드
     SwordThrow_Spin, //회전
     SwordThrow_Pierce, //관통
-    SwordThrow_Bounce //튕김
+    SwordThrow_Bounce, //튕김
+
+    //시간 잔상 트리
+    TimeEcho, //기본 업그레이드. 플레이어 분신 생성 후 공격 
+    TimeEcho_SingleAttack, //분신이 단일 타격
+    TimeEcho_MultiAttack,  
+    TimeEcho_ChanceToDuplicate,
+
+    TimeEcho_HealWisp,
+    TimeEcho_CleanseWisp,
+    TimeEcho_CooldownWisp,
+
+    //영역 확장 트리
+    Domain_SlowingDown,//영역 내 적 느려짐
+    Domain_EchoSpam,//영역 내 잔상 지속 생성
+    Domain_ShardSpam,//영역 내 시간 파편 지속 생성
+
 }

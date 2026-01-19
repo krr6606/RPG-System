@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
   Name: "\uBE44\uAC80"
   Description: "\uAC80\uC744 \uB0A0\uB824 \uD53C\uD574\uB97C \uC900\uB2E4."
-  Icon: {fileID: -5365385695610608141, guid: 44080f200e73774409489139925dcf8a, type: 3}
+  Icon: {fileID: 973095706, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
   unlockedByDefault: 0
   cost: 1
   upgradeData:
