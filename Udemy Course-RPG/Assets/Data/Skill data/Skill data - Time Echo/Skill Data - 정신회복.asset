@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0de047589e334143a458a85a2a82512, type: 3}
+  m_Name: "Skill Data - \uC815\uC2E0\uD68C\uBCF5"
+  m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
+  Name: "\uC815\uC2E0 \uD68C\uBCF5"
+  Description: "\uCE58\uC720 \uD30C\uB3D9\uC774 \uBAA8\uB4E0 \uC2A4\uD0AC \uCFE8\uD0C0\uC784\uC744
+    1\uCD08 \uC904\uC778\uB2E4."
+  Icon: {fileID: -240109507, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
+  unlockedByDefault: 0
+  cost: 0
+  upgradeData:
+    upgradeType: 21
+    cooldownTime: 0
+    damageScaleData:
+      physicalDamageScale: 1
+      elementalDamageScale: 1
+      chillDuration: 2.4
+      chillSlowAmountScale: 0.2
+      burnDuration: 3
+      burnDamageScale: 1
+      electricDuration: 2
+      electricDamageScale: 1
+      electricCharge: 0.4
+  skillType: 3
