@@ -1,16 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class UI_ItemSlot : MonoBehaviour
+using UnityEngine.EventSystems;
+public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler, IPointerClickHandler
 {
     public Inventory_Item itemInSlot { get; private set; }
+    protected Inventory_Player playerInventory;
 
     [Header("UI Item Slot Settings")]
     [SerializeField] private Image itemIconImage;
     [SerializeField] private Sprite defaultImageSprite;
     [SerializeField] private TextMeshProUGUI itemStackSize;
+    protected void Awake()
+    {
+        playerInventory = FindFirstObjectByType<Inventory_Player>();
+    }
 
-    public void UpdateSlot(Inventory_Item item)
+    public virtual void OnPointerDown(PointerEventData eventData)
+    {
+        if(itemInSlot == null) return;
+        playerInventory.TryEquipItem(itemInSlot);
+    }
+
+
+    public void UpdateSlotUI(Inventory_Item item)
     {
         itemInSlot = item;
 
@@ -26,5 +39,10 @@ public class UI_ItemSlot : MonoBehaviour
         itemIconImage.color = iconColor;
         itemIconImage.sprite = itemInSlot.itemData.icon;
         itemStackSize.text = item.itemStackSize < 2 ? "" : itemInSlot.itemStackSize.ToString();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("Å¬¸¯µÊ");
     }
 }

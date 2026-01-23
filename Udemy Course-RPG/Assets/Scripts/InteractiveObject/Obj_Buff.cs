@@ -10,7 +10,7 @@ public class Buff
 public class Obj_Buff : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    private Entity_Stat statToModify;
+    private Entity_Stats statToModify;
     [Header("Floating Settings")]
     [SerializeField] float floatSpeed = 1f;
     [SerializeField] float floatRange = 0.5f;
@@ -36,7 +36,7 @@ public class Obj_Buff : MonoBehaviour
     {
         if (!canBeUsed)
             return;
-        statToModify = collision.GetComponent<Entity_Stat>();
+        statToModify = collision.GetComponent<Entity_Stats>();
         StartCoroutine(BuffCoroutine(buffDuration));
     }
     IEnumerator BuffCoroutine(float duration)

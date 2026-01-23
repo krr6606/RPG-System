@@ -11,7 +11,7 @@ public class SkillObject_Base : MonoBehaviour
     protected Animator animator;
     protected Rigidbody2D rb;
 
-    protected Entity_Stat entityStat;
+    protected Entity_Stats entityStat;
     protected DamageScaleData damageScaleData;
     protected ElementType usedELementType;
     protected bool targetGotHit;

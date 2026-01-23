@@ -8,7 +8,8 @@ public class Player_GroundedState : PlayerState
     public override void Update()
     {
         base.Update();
-        if(rb.linearVelocity.y < 0 && player.groundDetected == false)
+
+        if (rb.linearVelocity.y < 0 && player.groundDetected == false)
         {
             stateMachine.ChangeState(player.fallState);
         }

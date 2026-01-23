@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Entity_Stat : MonoBehaviour
+public class Entity_Stats : MonoBehaviour
 {
     public StatSetupDataSO defaultStatSetup;
 

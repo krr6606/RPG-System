@@ -20,9 +20,9 @@ public class Obj_ItemPickup : MonoBehaviour
         if (spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+        }
             spriteRenderer.sprite = itemData.icon;
             gameObject.name = "Obj_ItemPickup - " + itemData.itemName;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

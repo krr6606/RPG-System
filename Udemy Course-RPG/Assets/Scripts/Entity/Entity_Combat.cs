@@ -3,7 +3,7 @@ using UnityEngine;
 public class Entity_Combat : MonoBehaviour
 {
     Entity_VFX entityVFX;
-    Entity_Stat entityStat;
+    Entity_Stats entityStat;
 
     public DamageScaleData basicAttackScale;
 
@@ -16,11 +16,11 @@ public class Entity_Combat : MonoBehaviour
     private void Awake()
     {
         entityVFX = GetComponent<Entity_VFX>();
-        entityStat = GetComponent<Entity_Stat>();
+        entityStat = GetComponent<Entity_Stats>();
     }
     public void performAttack()
     {
-        
+
         foreach (var target in GetDetectedTargets())
         {
             if (!target.TryGetComponent<IDamagable>(out var damagable)) continue;

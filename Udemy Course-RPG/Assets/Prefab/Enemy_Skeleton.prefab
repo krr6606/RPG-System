@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 375016693040249322}
   - component: {fileID: 9129908918045123504}
   - component: {fileID: 4957994494089640675}
-  - component: {fileID: 3153264936553930411}
   - component: {fileID: 9198665670282861956}
+  - component: {fileID: 3626982917774044182}
   m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Enemy
@@ -157,18 +157,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d3e1203353dd34f8f5a2f4b315ef82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Combat
-  damage: 50
+  basicAttackScale:
+    physicalDamageScale: 1
+    elementalDamageScale: 1
+    chillDuration: 2.4
+    chillSlowAmountScale: 0.2
+    burnDuration: 3
+    burnDamageScale: 1
+    electricDuration: 2
+    electricDamageScale: 1
+    electricCharge: 0.4
   targetCheck: {fileID: 2889778764263851066}
   targetCheckRadius: 1.3
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
-  chillDuration: 2
-  chillSlowAmount: 0.3
-  burnDuration: 3
-  electricChargeBulldUp: 0.4
-  burnDamageScale: 0.5
-  electricDamageScale: 1
 --- !u!114 &9129908918045123504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +185,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Health
   currentHealth: 0
-  isDead: 0
   canRegenerateHealth: 0
   healthRegenInterval: 1
   knockbackForce: {x: 1.2, y: 1.76}
@@ -211,7 +213,7 @@ MonoBehaviour:
   fireVfxColor: {r: 1, g: 0, b: 0, a: 1}
   electricVfxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   counterWindowVFX: {fileID: 3086616751173996982}
---- !u!114 &3153264936553930411
+--- !u!114 &9198665670282861956
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,13 +222,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 578879831894814475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 572a27422ecdb1a4c86790e12717b414, type: 3}
+  m_Script: {fileID: 11500000, guid: f4c7fe9f02968814d9a9e937f520a81e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Entity_Stat
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_StatusHendler
+  lightningVFXPrefab: {fileID: 4622548043322710453, guid: ac6caa10eaeebd842ad276407f104586, type: 3}
+  currentCharge: 0
+  maxCharge: 1
+--- !u!114 &3626982917774044182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578879831894814475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcf2c92dd1dd20448975e76b0219173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Stats
   defaultStatSetup: {fileID: 11400000, guid: 9fed37b07124dd2419bf5d1309641947, type: 2}
   statResourceGroup:
     maxHealth:
-      baseValue: 100
+      baseValue: 0
       statModifiers: []
     healthRegen:
       baseValue: 0
@@ -246,13 +263,13 @@ MonoBehaviour:
       statModifiers: []
   offenceStats:
     attackSpeed:
-      baseValue: 1
+      baseValue: 0
       statModifiers: []
     damage:
-      baseValue: 10
+      baseValue: 0
       statModifiers: []
     critPower:
-      baseValue: 150
+      baseValue: 0
       statModifiers: []
     critChance:
       baseValue: 0
@@ -285,21 +302,6 @@ MonoBehaviour:
     lightningResist:
       baseValue: 0
       statModifiers: []
---- !u!114 &9198665670282861956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 578879831894814475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c7fe9f02968814d9a9e937f520a81e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Entity_StatusHendler
-  lightningVFXPrefab: {fileID: 4622548043322710453, guid: ac6caa10eaeebd842ad276407f104586, type: 3}
-  currentCharge: 0
-  maxCharge: 1
 --- !u!1 &3086616751173996982
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
     Slider healthBar;
     Entity_VFX entityVFX;
     private Entity entity;
-    Entity_Stat entityStat;
+    Entity_Stats entityStat;
     Entity_Health entityHealth;
 
     [SerializeField] protected float currentHealth;
@@ -29,7 +29,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
     {
         entityVFX = GetComponent<Entity_VFX>();
         entity = GetComponent<Entity>();
-        entityStat = GetComponent<Entity_Stat>();
+        entityStat = GetComponent<Entity_Stats>();
         healthBar = GetComponentInChildren<Slider>();
         entityHealth = GetComponent<Entity_Health>();
 
@@ -56,7 +56,7 @@ public class Entity_Health : MonoBehaviour,IDamagable
             Debug.Log("Attack Evaded!");
             return false;
         }
-        Entity_Stat dealerStat = damageDealer.GetComponent<Entity_Stat>();
+        Entity_Stats dealerStat = damageDealer.GetComponent<Entity_Stats>();
         float armorReduction = dealerStat != null ? dealerStat.GetArmorReduction() : 0f;
 
         float mitigation = entityStat != null ? entityStat.GetArmorMitigation(armorReduction) : 0;

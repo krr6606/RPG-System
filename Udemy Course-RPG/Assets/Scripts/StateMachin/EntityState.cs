@@ -7,7 +7,7 @@ public abstract class EntityState
 
     protected Animator animator;
     protected Rigidbody2D rb;
-    protected Entity_Stat entityStat;
+    protected Entity_Stats entityStat; 
 
     protected float stateTimer;
     protected bool triggerCalled;

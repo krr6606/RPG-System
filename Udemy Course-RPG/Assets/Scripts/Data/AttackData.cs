@@ -10,7 +10,7 @@ public class AttackData
 
     public ElementalEffectData effectData;
 
-    public AttackData(Entity_Stat entity_Stat, DamageScaleData damageScaleData)
+    public AttackData(Entity_Stats entity_Stat, DamageScaleData damageScaleData)
     {
         pyhsicalDamage = entity_Stat.GetPhysicalDamage(out isCrit, damageScaleData.physicalDamageScale);
         elementalDamage = entity_Stat.GetElementalDamage(out elementType ,damageScaleData.elementalDamageScale);

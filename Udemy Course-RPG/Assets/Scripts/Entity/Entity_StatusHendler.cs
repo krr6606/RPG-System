@@ -6,7 +6,7 @@ public class Entity_StatusHendler : MonoBehaviour
     private Entity entity;
     private Entity_VFX entity_VFX;
     private Entity_Health entity_Health;
-    private Entity_Stat entity_Stat;
+    private Entity_Stats entity_Stat;
     private ElementType currentElementType = ElementType.None;
     [Header("Elemental Status Effects Settings")]
     [SerializeField] private GameObject lightningVFXPrefab;
@@ -19,7 +19,7 @@ public class Entity_StatusHendler : MonoBehaviour
         entity = GetComponent<Entity>();
         entity_Health = GetComponent<Entity_Health>();
         entity_VFX = GetComponent<Entity_VFX>();
-        entity_Stat = GetComponent<Entity_Stat>();
+        entity_Stat = GetComponent<Entity_Stats>();
     }
 
     public void RemoveAllNegativeStatusEffects()

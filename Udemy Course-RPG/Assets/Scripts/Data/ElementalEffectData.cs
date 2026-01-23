@@ -12,7 +12,7 @@ public class ElementalEffectData
     public float electricDamage;
     public float electricCharge;
 
-    public ElementalEffectData(Entity_Stat entity_Stat,DamageScaleData damageScaleData)
+    public ElementalEffectData(Entity_Stats entity_Stat,DamageScaleData damageScaleData)
     {
         chillDuration = damageScaleData.chillDuration;
         chillSlowAmount = damageScaleData.chillSlowAmountScale;

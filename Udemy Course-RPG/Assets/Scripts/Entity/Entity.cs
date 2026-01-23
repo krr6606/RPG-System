@@ -7,7 +7,7 @@ public abstract class Entity : MonoBehaviour
     public event Action OnFlipped;
     protected StateMachin stateMachine;
     public Animator animator { get; private set; }
-    public Entity_Stat entityStat { get; protected set; }
+    public Entity_Stats entityStat { get; protected set; }
     public Rigidbody2D rb { get; private set; }
 
 
@@ -36,7 +36,7 @@ public abstract class Entity : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        entityStat = GetComponent<Entity_Stat>();
+        entityStat = GetComponent<Entity_Stats>();
         stateMachine = new StateMachin();
        
     }
