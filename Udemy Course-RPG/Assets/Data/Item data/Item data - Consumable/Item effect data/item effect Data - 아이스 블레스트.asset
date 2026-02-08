@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1a2c88592e2fa48bd6cfe5e684cda2, type: 3}
+  m_Name: "item effect Data - \uC544\uC774\uC2A4 \uBE14\uB808\uC2A4\uD2B8"
+  m_EditorClassIdentifier: Assembly-CSharp::ItemEffect_IceBlast
+  effectDescription: "\uC77C\uC815 \uCCB4\uB825 \uC774\uD558\uB85C \uB5A8\uC5B4\uC9C8
+    \uC2DC \uC8FC\uBCC0\uC5D0 \uC544\uC774\uC2A4 \uBE14\uB808\uC2A4\uD2B8\uB97C \uC2DC\uC804\uD55C\uB2E4."
+  elementalEffectData:
+    chillDuration: 3
+    chillSlowAmount: 0.6
+    burnDuration: 0
+    burnTotalDamage: 0
+    electricDuration: 0
+    electricDamage: 0
+    electricCharge: 0
+  iceDamage: 25
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
+  healthPercentTrigger: 0.9
+  cooldown: 120
+  iceBlastVFX: {fileID: 5501158605152050289, guid: 5290f318ecc5dcd44a2929f5ac27bd46, type: 3}
+  onHitVFX: {fileID: 1911220264709062574, guid: 5783d0945f45e93498c6f9ee439a7cd8, type: 3}

@@ -24,25 +24,29 @@ public class UI_ToolTip : MonoBehaviour
         float screenCenterX = Screen.width / 2f;
         float screenTop = Screen.height;
         float screenBottom = 0f;
- 
+        
         Vector2 targetPosition = targetRect.position;
 
         targetPosition.x = targetPosition.x > screenCenterX
             ? targetPosition.x - offset.x
             : targetPosition.x + offset.x;
+
         float toolTipHalf = rectTransform.sizeDelta.y / 2f;
         float TopY = targetPosition.y + toolTipHalf;
         float BottomY = targetPosition.y - toolTipHalf;
         if (TopY > screenTop)
         {
             targetPosition.y = screenTop - toolTipHalf - offset.y;
+
         }
         else if (BottomY < screenBottom)
         {
             targetPosition.y = screenBottom + toolTipHalf + offset.y;
+
         }
 
         rectTransform.position = targetPosition;
+
     }
     protected string GetColoredText(string text, string hexColor)
     {

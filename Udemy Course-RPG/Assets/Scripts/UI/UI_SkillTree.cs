@@ -25,6 +25,7 @@ public class UI_SkillTree : MonoBehaviour
     public void RemoveSkillPoint(int cost)
     {
         skillPoints -= cost;
+        Debug.Log("Skill Points Remaining: " + skillPoints);
     }
     public void AddSkillPoint(int cost) {
         skillPoints += cost;

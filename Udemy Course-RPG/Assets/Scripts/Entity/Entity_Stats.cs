@@ -10,6 +10,10 @@ public class Entity_Stats : MonoBehaviour
     public Stat_OffenceGroup offenceStats;
     public Stat_DefenceGroup defenceStats;
 
+    protected virtual void Awake()
+    {
+
+    }
     public AttackData AttackData(DamageScaleData damageScaleData)
     {
         return new AttackData(this, damageScaleData);
@@ -17,22 +21,21 @@ public class Entity_Stats : MonoBehaviour
 
     public float GetPhysicalDamage(out bool isCriticalHit, float scaleFator =1)
     {
-        float basePhysicalDamage = offenceStats.damage.GetValue();
-        float strengthBonus = majorStats.strength.GetValue() * 2;
-        float totalPhysicalDamage = basePhysicalDamage + strengthBonus;
+        float basePhysicalDamage = GetBaseDamage();
 
-        float baseCriticalChance = offenceStats.critChance.GetValue();
-        float bonusCriticalChance = majorStats.agility.GetValue() * 0.3f;
-        float totalCriticalChance = baseCriticalChance + bonusCriticalChance;
 
-        float baseCriticalPower = offenceStats.critPower.GetValue();
-        float bonusCriticalPower = majorStats.strength.GetValue() * 0.5f;
-        float totalCriticalPower = (baseCriticalPower + bonusCriticalPower)/100;
-        isCriticalHit = Random.value < (totalCriticalChance / 100f);
-        float fianlDamage = isCriticalHit ? basePhysicalDamage * totalCriticalPower : totalPhysicalDamage;
+        float CriticalChance = GetCritChance();
+
+        float totalCriticalPower = GetCritPower()/100;
+        isCriticalHit = Random.value < (CriticalChance / 100f);
+        float fianlDamage = isCriticalHit ? basePhysicalDamage * totalCriticalPower : basePhysicalDamage;
 
         return fianlDamage * scaleFator;
     }
+
+    public float GetBaseDamage() => offenceStats.damage.GetValue() + majorStats.strength.GetValue();//Èû ½ºÅÝ 1´ç ¹°¸® ÇÇÇØ·® 2 Áõ°¡
+    public float GetCritChance() => offenceStats.critChance.GetValue() + majorStats.agility.GetValue() * 0.3f; //¹ÎÃ¸ ½ºÅÝ 1´ç Ä¡¸íÅ¸ È®·ü 0.3% Áõ°¡
+    public float GetCritPower() => offenceStats.critPower.GetValue() + majorStats.strength.GetValue() * 0.5f; //Èû ½ºÅÝ 1´ç Ä¡¸íÅ¸ ÇÇÇØ·® 0.5% Áõ°¡
     public float GetElementalDamage(out ElementType elementType, float scaleFactor = 1)
     {
         float fireDamage = offenceStats.fireDamage.GetValue();
@@ -90,9 +93,8 @@ public class Entity_Stats : MonoBehaviour
     }
     public float GetArmorMitigation(float armorReduction)
     {
-        float baseArmour = defenceStats.armor.GetValue();
-        float strengthBonus = majorStats.strength.GetValue();
-        float totalArmour = baseArmour + strengthBonus;
+
+        float totalArmour = GetBaseArmor();
 
         float reductionMutliplier = Mathf.Clamp01(1 - armorReduction);
         float effectiveArmour = totalArmour * reductionMutliplier;
@@ -103,6 +105,7 @@ public class Entity_Stats : MonoBehaviour
         armourMitigation = Mathf.Min(armourMitigation, mitigationCap);
         return armourMitigation;
     }
+    public float GetBaseArmor() => defenceStats.armor.GetValue() + majorStats.vitality.GetValue(); //È°·Â ½ºÅÝ 1´ç ¹æ¾î·Â 1 Áõ°¡
     public float GetArmorReduction()
     {
         float finalArmorReduction = offenceStats.armorReduction.GetValue()/100;

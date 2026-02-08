@@ -9,12 +9,13 @@ public class Inventory_Item
     public int itemStackSize = 1;
 
     public ItemModifier[] modifiers { get; private set; }
+    public ItemEffectDataSO itemEffectData;
 
     public Inventory_Item(ItemDataSO itemData)
     {
         this.itemData = itemData;
         modifiers = EquipmentData()?.itemModifiers;
-
+        itemEffectData = itemData.itemEffect;
         uniqueItemID = itemData.itemName + "_" + System.Guid.NewGuid().ToString();
     }
     public void AddModifiers(Entity_Stats playerStat)
@@ -44,6 +45,9 @@ public class Inventory_Item
         }
         return null;
     }
+
+    public void AddItemEffect(Player player) => itemEffectData?.Subscribe(player);
+    public void RemoveItemEffect()=> itemEffectData?.Unsubscribe();
 
     public bool CanAddStack() => itemStackSize < itemData.maxStackSize;
 

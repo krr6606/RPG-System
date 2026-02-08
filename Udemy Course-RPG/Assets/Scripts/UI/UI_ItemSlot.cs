@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler, IPointerClickHandler
+public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Inventory_Item itemInSlot { get; private set; }
     protected Inventory_Player playerInventory;
+    protected UI ui;
+    protected RectTransform rectTransform;
 
     [Header("UI Item Slot Settings")]
     [SerializeField] private Image itemIconImage;
@@ -14,14 +16,30 @@ public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler, IPointerClickHandl
     protected void Awake()
     {
         playerInventory = FindFirstObjectByType<Inventory_Player>();
+        rectTransform = GetComponent<RectTransform>();
+        ui = GetComponentInParent<UI>();
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         if(itemInSlot == null) return;
-        playerInventory.TryEquipItem(itemInSlot);
-    }
 
+        if (itemInSlot.itemData.itemType == ItemType.Consumable)
+        {
+            if(itemInSlot.itemEffectData.CanBeUsed() == false)
+            {
+                return;
+            }
+
+            playerInventory.TryUseItem(itemInSlot);
+        }
+
+
+        playerInventory.TryEquipItem(itemInSlot);
+
+        if(itemInSlot == null)
+            ui.itemToolTip.ShowToolTip(false, null);
+    }
 
     public void UpdateSlotUI(Inventory_Item item)
     {
@@ -41,8 +59,16 @@ public class UI_ItemSlot : MonoBehaviour,IPointerDownHandler, IPointerClickHandl
         itemStackSize.text = item.itemStackSize < 2 ? "" : itemInSlot.itemStackSize.ToString();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Å¬¸¯µÊ");
+        if(itemInSlot == null) return;
+        ui.itemToolTip.ShowToolTip(true, rectTransform,itemInSlot);
     }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ui.itemToolTip.ShowToolTip(false, null);
+    }
+
+
 }

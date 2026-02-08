@@ -7,4 +7,7 @@ public class ItemDataSO : ScriptableObject
     public Sprite icon;
     public ItemType itemType;
     public int maxStackSize = 1;
+
+    [Header("Item Effects")]
+    public ItemEffectDataSO itemEffect;
 }

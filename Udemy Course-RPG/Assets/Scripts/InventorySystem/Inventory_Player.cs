@@ -3,19 +3,21 @@ using UnityEngine;
 
 public class Inventory_Player : Inventory_Base
 {
-    private Entity_Stats playerStats;
+    private Player player;
     public List<Inventory_EquipmentSlot> equipmentSlots;
     protected override void Awake()
     {
         base.Awake();
-        playerStats = GetComponent<Entity_Stats>();
+        player = GetComponent<Player>();
     }
 
     public void TryEquipItem(Inventory_Item item)
     {
         var inventory_Item = FindCanAddItem(item.itemData);
         var matchingSlot = equipmentSlots.FindAll(slot => slot.slotType == item.itemData.itemType);
-        if (inventory_Item.itemData.itemType == ItemType.Matetial)
+        if (inventory_Item.itemData.itemType != ItemType.Weapon &&
+            inventory_Item.itemData.itemType != ItemType.Armor &&
+            inventory_Item.itemData.itemType != ItemType.Trinket)
         {
             Debug.Log("장비할 수 없는 아이템입니다.");
             return;
@@ -36,11 +38,15 @@ public class Inventory_Player : Inventory_Base
         UnequipItem(slotToReplace.storedItem);
         EquipItem(inventory_Item, slotToReplace);
     }
-    private void EquipItem(Inventory_Item itemToEquip,Inventory_EquipmentSlot slot)
+    private void EquipItem(Inventory_Item itemToEquip, Inventory_EquipmentSlot slot)
     {
+        float savedHealth = player.health.GetHealthPercentage();
+
         slot.storedItem = itemToEquip;
-        itemToEquip.AddModifiers(playerStats);
-        
+        slot.storedItem.AddModifiers(player.entityStat);
+        slot.storedItem.AddItemEffect(player);
+
+        player.health.SetHealthToPercent(savedHealth);
         RemoveItem(itemToEquip);
     }
     public void UnequipItem(Inventory_Item itemToUnquip)
@@ -50,15 +56,18 @@ public class Inventory_Player : Inventory_Base
             Debug.Log("인벤토리에 공간이 없습니다.");
             return;
         }
-        foreach (var slot in equipmentSlots)
+
+        float savedHealthPercent = player.health.GetHealthPercentage();
+
+        var slotToUnequip = equipmentSlots.Find(slot => slot.storedItem == itemToUnquip);
+        if(slotToUnequip != null)
         {
-            if (slot.storedItem == itemToUnquip)
-            {
-                slot.storedItem = null;
-                itemToUnquip.RemoveModifiers(playerStats);
-                AddItem(itemToUnquip);
-                return;
-            }
+            slotToUnequip.storedItem = null;
         }
+
+        itemToUnquip.RemoveModifiers(player.entityStat);
+        itemToUnquip.RemoveItemEffect();
+        player.health.SetHealthToPercent(savedHealthPercent);
+        AddItem(itemToUnquip);
     }
 }

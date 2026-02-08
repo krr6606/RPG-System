@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Entity_Health : MonoBehaviour,IDamagable
 {
+    public event Action OnTakingDamage;
     Slider healthBar;
     Entity_VFX entityVFX;
     private Entity entity;
@@ -70,6 +71,8 @@ public class Entity_Health : MonoBehaviour,IDamagable
         ReduceHP(physicalDamageTaken + elementalDamageTaken);
 
         lastDamageTaken = physicalDamageTaken + elementalDamageTaken;
+
+        OnTakingDamage?.Invoke();
         return true;
     }
     public void SetCanTakeDamage(bool canTakeDamage) => this.canTakeDamage = canTakeDamage;

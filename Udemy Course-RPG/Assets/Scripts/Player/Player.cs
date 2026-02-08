@@ -12,6 +12,7 @@ public class Player : Entity
     public Player_VFX playerVFX { get; private set; }
     public Entity_Health health { get; private set; }
     public Entity_StatusHendler statusHendler { get; private set; }
+    public Player_Combat playerCombat { get; private set; }
 
     #region States variables
     public Player_IdleState idleState { get; private set; }
@@ -64,6 +65,7 @@ public class Player : Entity
         inputSet = new PlayerInputSet();
         health = GetComponent<Entity_Health>();
         statusHendler = GetComponent<Entity_StatusHendler>();
+        playerCombat = GetComponent<Player_Combat>();
 
         idleState = new Player_IdleState(this, stateMachine, "IDLE");
         moveState = new Player_MoveState(this, stateMachine, "MOVE");
@@ -93,7 +95,7 @@ public class Player : Entity
         inputSet.Player.ToggleSkillTreeUI.performed += ctx => ui.ToggleSkillTreeUI();
         inputSet.Player.Spell.performed += ctx => skillManager.shardSkill.TryUseSkill();
         inputSet.Player.Spell.performed += ctx => skillManager.timeEchoSkill.TryUseSkill();
-
+        inputSet.Player.ToggleInventoryUI.performed += ctx => ui.ToggleStatusUI();
     }
 
 

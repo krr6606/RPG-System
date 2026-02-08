@@ -5,5 +5,6 @@ public enum ItemType
     Matetial,
     Weapon,
     Armor,
-    Trinket,
+    Trinket, 
+    Consumable, // Æ÷¼Ç µî
 }

@@ -28,11 +28,16 @@ public class Obj_ItemPickup : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         playerInventory = collision.GetComponent<Inventory_Base>();
-        if (playerInventory == null || !playerInventory.CanAddItem())
+        if (playerInventory == null)
             return;
 
-        playerInventory.AddItem(itemToAdd);
-        Debug.Log("Picked up: " + itemData.itemName);
-        Destroy(gameObject);
+        bool canAddItem = playerInventory.CanAddItem() || playerInventory.FindStackable(itemToAdd) != null;
+        if (canAddItem)
+        {
+            playerInventory.AddItem(itemToAdd);
+            Debug.Log("Picked up: " + itemData.itemName);
+            Destroy(gameObject);
+        }
+
     }
 }
