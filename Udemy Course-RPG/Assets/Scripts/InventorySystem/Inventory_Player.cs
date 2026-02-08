@@ -35,7 +35,7 @@ public class Inventory_Player : Inventory_Base
         //모든 장비 슬롯이 찼을 경우 처리
         var slotToReplace = matchingSlot[0];
         var itemToReplace = slotToReplace.storedItem;
-        UnequipItem(slotToReplace.storedItem);
+        UnequipItem(slotToReplace.storedItem,slotToReplace != null);
         EquipItem(inventory_Item, slotToReplace);
     }
     private void EquipItem(Inventory_Item itemToEquip, Inventory_EquipmentSlot slot)
@@ -49,9 +49,9 @@ public class Inventory_Player : Inventory_Base
         player.health.SetHealthToPercent(savedHealth);
         RemoveItem(itemToEquip);
     }
-    public void UnequipItem(Inventory_Item itemToUnquip)
+    public void UnequipItem(Inventory_Item itemToUnquip,bool replacingItem = false)
     {
-        if (CanAddItem() == false)
+        if (CanAddItem() == false && replacingItem == false)
         {
             Debug.Log("인벤토리에 공간이 없습니다.");
             return;
