@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Ground
   - Enemy
-  - PlayerPickup
+  - PlayerInteractable
   - SkillObject_PlayerSword
   - 
   - 

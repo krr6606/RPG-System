@@ -96,9 +96,28 @@ public class Player : Entity
         inputSet.Player.Spell.performed += ctx => skillManager.shardSkill.TryUseSkill();
         inputSet.Player.Spell.performed += ctx => skillManager.timeEchoSkill.TryUseSkill();
         inputSet.Player.ToggleInventoryUI.performed += ctx => ui.ToggleStatusUI();
+        inputSet.Player.Interact.performed += ctx => TryInteract();
     }
 
-
+    private void TryInteract()
+    {
+        Transform closest = null;
+        float closestDistance = Mathf.Infinity;
+        Collider2D[] ObjectAround = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+        foreach(var target in ObjectAround)
+        {
+            if (!target.TryGetComponent<IInteractable>(out var interactable))
+                continue;
+            float distance = Vector2.Distance(transform.position, target.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = target.transform;
+            }
+        }
+        if (closest == null) return;
+        closest.GetComponent<IInteractable>().Interact();
+    }
 
     void OnDisable()
     {
