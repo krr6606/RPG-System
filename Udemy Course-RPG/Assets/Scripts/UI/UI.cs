@@ -8,6 +8,8 @@ public class UI : MonoBehaviour
 
     public UI_SkillTree skillTreeUI { get; private set; }
     public UI_Inventory inventoryUI { get; private set; }
+    public UI_Storage  storageUI { get; private set; }
+
     private bool skillTreeEnabled = false;
     private bool inventoryEnabled = false;
     private void Awake()
@@ -31,6 +33,10 @@ public class UI : MonoBehaviour
         if (inventoryUI == null)
         {
             inventoryUI = GetComponentInChildren<UI_Inventory>(true);
+        }
+        if(storageUI == null)
+        {
+            storageUI = GetComponentInChildren<UI_Storage>(true);
         }
 
         skillTreeEnabled = skillTreeUI.gameObject.activeSelf;

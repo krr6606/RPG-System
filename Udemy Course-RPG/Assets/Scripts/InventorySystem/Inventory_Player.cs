@@ -51,7 +51,7 @@ public class Inventory_Player : Inventory_Base
     }
     public void UnequipItem(Inventory_Item itemToUnquip,bool replacingItem = false)
     {
-        if (CanAddItem() == false && replacingItem == false)
+        if (CanAddItem(itemToUnquip) == false && replacingItem == false)
         {
             Debug.Log("인벤토리에 공간이 없습니다.");
             return;

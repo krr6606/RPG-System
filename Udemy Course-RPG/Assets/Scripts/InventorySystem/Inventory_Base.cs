@@ -39,13 +39,11 @@ public class Inventory_Base : MonoBehaviour
         }
     }
 
-    public bool CanAddItem()
+    public bool CanAddItem(Inventory_Item itemToAdd)
     {
-        if(items.Count < MaxInventorySize)
-        {
-            return true;
-        } 
-        return false;
+        bool hasStackable =  FindStackable(itemToAdd) != null;
+
+        return hasStackable || items.Count < MaxInventorySize; // 인벤이 비어있지 않고 스택을 쌓을 수 없으면 flase
     }
     public Inventory_Item FindStackable(Inventory_Item itemToAdd)
     {
