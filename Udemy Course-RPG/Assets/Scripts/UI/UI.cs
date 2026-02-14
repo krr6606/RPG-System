@@ -42,6 +42,14 @@ public class UI : MonoBehaviour
         skillTreeEnabled = skillTreeUI.gameObject.activeSelf;
         inventoryEnabled = inventoryUI.gameObject.activeSelf;
     }
+
+    public void SwitchOffAllToolTips()
+    {
+        toolTip.ShowToolTip(false, null);
+        itemToolTip.ShowToolTip(false, null);
+        statToolTip.ShowToolTip(false, null);
+    }
+
     public void ToggleSkillTreeUI()
     {
         skillTreeEnabled = !skillTreeEnabled;

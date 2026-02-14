@@ -23,4 +23,10 @@ public class Obj_Blacksmith : Obj_NPC, IInteractable
         playerInventory = player.GetComponent<Inventory_Player>();
         storage.SetInventory(playerInventory);
     }
+    protected override void OnTriggerExit2D(Collider2D collision)
+    {
+        base.OnTriggerExit2D(collision);
+        ui.SwitchOffAllToolTips();
+         ui.storageUI.gameObject.SetActive(false);
+    }
 }

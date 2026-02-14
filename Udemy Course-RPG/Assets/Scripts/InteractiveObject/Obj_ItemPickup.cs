@@ -3,15 +3,12 @@ using UnityEngine;
 public class Obj_ItemPickup : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+
     [SerializeField] private ItemDataSO itemData;
 
-    private Inventory_Item itemToAdd;
-    public Inventory_Base playerInventory;
 
-    private void Start()
-    {
-        itemToAdd = new Inventory_Item(itemData);
-    }
+
+
 
     private void OnValidate()
     {
@@ -27,9 +24,17 @@ public class Obj_ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerInventory = collision.GetComponent<Inventory_Base>();
-        if (playerInventory == null)
+        Inventory_Item itemToAdd = new Inventory_Item(itemData);
+        collision.TryGetComponent<Inventory_Player>(out var playerInventory);
+        Inventory_Storage storage = playerInventory.storage;
+
+        if(itemData.itemType == ItemType.Matetial)
+        {
+            storage.AddMaterialToStash(itemToAdd);
+            Debug.Log("Picked up: " + itemData.itemName);
+            Destroy(gameObject);
             return;
+        }
 
         if (playerInventory.CanAddItem(itemToAdd))
         {
