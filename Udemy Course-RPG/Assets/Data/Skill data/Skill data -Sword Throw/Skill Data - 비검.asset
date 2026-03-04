@@ -30,4 +30,4 @@ MonoBehaviour:
       electricDuration: 2
       electricDamageScale: 1
       electricCharge: 0.4
-  skillType: 3
+  skillType: 2

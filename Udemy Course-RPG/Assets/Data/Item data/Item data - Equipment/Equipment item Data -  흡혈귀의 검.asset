@@ -10,13 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd2a5124b3adf264eb501493355e176d, type: 3}
-  m_Name: "Equipment item Data -  \uC0DD\uBA85\uC758 \uAC80"
+  m_Name: "Equipment item Data -  \uD761\uD608\uADC0\uC758 \uAC80"
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentDataSO
-  itemName: "\uC0DD\uBA85\uC758 \uAC80"
+  itemName: "\uD761\uD608\uADC0\uC758 \uAC80"
   icon: {fileID: -620092126, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
   itemType: 1
   maxStackSize: 1
   itemEffect: {fileID: 11400000, guid: 20b9c415140842241a1673783079d055, type: 2}
+  craftRecipe:
+  - itemData: {fileID: 11400000, guid: da2f9fb0a5614d24f8ee4cf23bb6d1cd, type: 2}
+    itemStackSize: 1
+    itemEffectData: {fileID: 0}
+  - itemData: {fileID: 11400000, guid: 10bb02dd0ebaf0549a1c2916ea82b5b7, type: 2}
+    itemStackSize: 3
+    itemEffectData: {fileID: 0}
   itemModifiers:
   - statType: 2
     statValue: 5
