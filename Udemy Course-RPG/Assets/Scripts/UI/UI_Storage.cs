@@ -24,12 +24,19 @@ public class UI_Storage : MonoBehaviour
             slot.SetStorage(storage);
         }
     }
+    private void OnEnable()
+    {
+        UpdateUI();
+    }
 
     private void UpdateUI()
     {
-        inventoryParent.UpdateSlots(playerInventory.items);
-        storageParent.UpdateSlots(Storage.items);
-        materialStashParent.UpdateSlots(Storage.materialStash);
+        if (Storage != null)
+        {
+            inventoryParent.UpdateSlots(playerInventory.itemList);
+            storageParent.UpdateSlots(Storage.itemList);
+            materialStashParent.UpdateSlots(Storage.materialStash);
+        }
     }
 
 }

@@ -21,7 +21,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void UpdateUI()
     {
-        uiItemSlotParent.UpdateSlots(playerInventory.items);
+        uiItemSlotParent.UpdateSlots(playerInventory.itemList);
         UpdateEquipmentSlots();
     }
     private void UpdateEquipmentSlots()

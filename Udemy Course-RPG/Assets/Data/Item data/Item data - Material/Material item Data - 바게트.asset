@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b0d1a30e868054797473367a5385cb, type: 3}
   m_Name: "Material item Data - \uBC14\uAC8C\uD2B8"
   m_EditorClassIdentifier: Assembly-CSharp::ItemDataSO
+  itemPrice: 100
+  minStackSizeAtShop: 1
+  maxStackSizeAtShop: 3
+  craftRecipe: []
   itemName: "\uBC14\uAC8C\uD2B8"
   icon: {fileID: -418087103, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
   itemType: 0
   maxStackSize: 99
   itemEffect: {fileID: 0}
-  craftRecipe: []

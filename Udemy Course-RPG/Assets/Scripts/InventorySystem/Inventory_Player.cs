@@ -4,6 +4,7 @@ using UnityEngine;
 public class Inventory_Player : Inventory_Base
 {
     private Player player;
+    public int gold;
     public List<Inventory_EquipmentSlot> equipmentSlots;
     public Inventory_Storage storage { get; private set; }
     protected override void Awake()

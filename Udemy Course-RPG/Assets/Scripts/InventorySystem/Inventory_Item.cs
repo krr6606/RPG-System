@@ -9,14 +9,19 @@ public class Inventory_Item
     public ItemDataSO itemData;
     public int itemStackSize = 1;
 
+
     public ItemModifier[] modifiers { get; private set; }
     public ItemEffectDataSO itemEffectData;
+    public int buyPrice { get; private set; }
+    public int sellPrice { get; private set; }
 
     public Inventory_Item(ItemDataSO itemData)
     {
         this.itemData = itemData;
         modifiers = EquipmentData()?.itemModifiers;
         itemEffectData = itemData.itemEffect;
+        this.buyPrice = itemData.itemPrice;
+        this.sellPrice = Mathf.RoundToInt(itemData.itemPrice * 0.35f);
         uniqueItemID = itemData.itemName + "_" + System.Guid.NewGuid().ToString();
     }
     public void AddModifiers(Entity_Stats playerStat)

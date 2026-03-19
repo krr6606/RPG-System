@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744eaf89c9c4ed24a94a39ab4d6db42e, type: 3}
   m_Name: "Consumable item Data - 3\uAE09 \uD790\uB9C1 \uD3EC\uC158"
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableItemDataSO
+  itemPrice: 100
+  minStackSizeAtShop: 1
+  maxStackSizeAtShop: 3
+  craftRecipe: []
   itemName: "3\uAE09 \uD790\uB9C1 \uD3EC\uC158"
   icon: {fileID: 2069481659, guid: b9f0a04326502224d981bd4c15ced4f9, type: 3}
   itemType: 4

@@ -31,5 +31,5 @@ public class UI_Craft : MonoBehaviour
             button.SetCraftSlot(craftSlots);
         }
     }
-    private void UpdateUI() => inventoryParent.UpdateSlots(playerInventory.items);
+    private void UpdateUI() => inventoryParent.UpdateSlots(playerInventory.itemList);
 }

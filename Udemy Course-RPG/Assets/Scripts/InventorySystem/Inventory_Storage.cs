@@ -13,7 +13,7 @@ public class Inventory_Storage : Inventory_Base
         {
             int amountToConsume = requiredItem.itemStackSize;
 
-            amountToConsume -= ConsumedMaterialsAmount(playerInventory.items, requiredItem);
+            amountToConsume -= ConsumedMaterialsAmount(playerInventory.itemList, requiredItem);
 
             if (amountToConsume > 0)
             {
@@ -21,7 +21,7 @@ public class Inventory_Storage : Inventory_Base
             }
             if (amountToConsume > 0)
             {
-                ConsumedMaterialsAmount(items, requiredItem);
+                ConsumedMaterialsAmount(itemList, requiredItem);
             }
         }
     }
@@ -71,7 +71,7 @@ public class Inventory_Storage : Inventory_Base
     public int GetAvailableAmountOf(ItemDataSO requiredItem)
     {
         int totalAmount = 0;
-        foreach (var item in playerInventory.items)
+        foreach (var item in playerInventory.itemList)
         {
             if (item.itemData == requiredItem)
             {
@@ -85,7 +85,7 @@ public class Inventory_Storage : Inventory_Base
                 totalAmount += item.itemStackSize;
             }
         }
-        foreach(var item in items)
+        foreach(var item in itemList)
         {
             if (item.itemData == requiredItem)
             {
@@ -105,7 +105,8 @@ public class Inventory_Storage : Inventory_Base
         }
         else
         {
-            materialStash.Add(itemToAdd);
+            var newItem = new Inventory_Item(itemToAdd.itemData);
+            materialStash.Add(newItem);
         }
         TriggerUpdateUI();
     }
