@@ -47,7 +47,7 @@ public class Inventory_Base : MonoBehaviour
     {
         bool hasStackable =  FindStackable(itemToAdd) != null;
 
-        return hasStackable || itemList.Count < MaxInventorySize; // ÀÎº¥ÀÌ ºñ¾îÀÖÁö ¾Ê°í ½ºÅÃÀ» ½×À» ¼ö ¾øÀ¸¸é flase
+        return hasStackable || itemList.Count < MaxInventorySize; // ì¸ë²¤ì´ ë¹„ì–´ìžˆì§€ ì•Šê³  ìŠ¤íƒì„ ìŒ“ì„ ìˆ˜ ì—†ìœ¼ë©´ flase
     }
     public Inventory_Item FindStackable(Inventory_Item itemToAdd)
     {
@@ -82,7 +82,14 @@ public class Inventory_Base : MonoBehaviour
     public void RemoveOneItem(Inventory_Item itemToRemve)
     {
         Inventory_Item itemInInventory = itemList.Find(item => item == itemToRemve);
-        if(itemInInventory.itemStackSize > 1)
+
+        if (itemInInventory == null)
+        {
+            Debug.LogWarning("ì œê±°í•˜ë ¤ëŠ” ì•„ì´í…œì´ ì¸ë²¤í† ë¦¬ì— ì—†ìŠµë‹ˆë‹¤.");
+            return;
+        }
+
+        if (itemInInventory.itemStackSize > 1)
         {
             itemInInventory.RemoveStack();
         }

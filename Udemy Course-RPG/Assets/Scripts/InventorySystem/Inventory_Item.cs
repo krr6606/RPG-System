@@ -61,16 +61,26 @@ public class Inventory_Item
     public void RemoveStack()=> itemStackSize--;
     public string GetItemInfo()
     {
+        StringBuilder stringBuilder = new StringBuilder();
         if (itemData.itemType == ItemType.Matetial)
         {
-            return "Á¦ÀÛ¿¡ »ç¿ëµÇ´Â Àç·á.";
-        }
-        if (itemData.itemType == ItemType.Consumable)
-        {
-            return itemData.itemEffect.effectDescription;
+            stringBuilder.AppendLine("");
+            stringBuilder.AppendLine("ì œì‘ì— ì‚¬ìš©ë˜ëŠ” ì¬ë£Œì´ë‹¤");
+            stringBuilder.AppendLine("");
+            stringBuilder.AppendLine("");
+            return stringBuilder.ToString();
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
+
+        if (itemData.itemType == ItemType.Consumable)
+        {
+            stringBuilder.AppendLine("");
+            stringBuilder.AppendLine(itemData.itemEffect.effectDescription);
+            stringBuilder.AppendLine("");
+            stringBuilder.AppendLine("");
+            return stringBuilder.ToString();
+        }
+
 
         stringBuilder.AppendLine("");
 
@@ -84,9 +94,12 @@ public class Inventory_Item
         if (itemEffectData != null)
         {
             stringBuilder.AppendLine("");
-            stringBuilder.AppendLine("Æ¯¼ö °¢ÀÎ: ");
+            stringBuilder.AppendLine("íŠ¹ìˆ˜ ê°ì¸: ");
             stringBuilder.AppendLine(itemEffectData.effectDescription);
         }
+
+        stringBuilder.AppendLine("");
+        stringBuilder.AppendLine("");
 
         return stringBuilder.ToString();
     }
@@ -95,43 +108,43 @@ public class Inventory_Item
         switch (statType)
         {
             case StatType.MaxHealth:
-                return "ÃÖ´ë Ã¼·Â";
+                return "ìµœëŒ€ ì²´ë ¥";
             case StatType.healthRegen:
-                return "Ã¤·Â Àç»ı·Â";
+                return "ì±„ë ¥ ì¬ìƒë ¥";
             case StatType.Strangth:
-                return "Èû";
+                return "í˜";
             case StatType.Agility:
-                return "¹ÎÃ¸";
+                return "ë¯¼ì²©";
             case StatType.Intelligence:
-                return "Áö´É";
+                return "ì§€ëŠ¥";
             case StatType.Vitality:
-                return "È°·Â";
+                return "í™œë ¥";
             case StatType.AtackSpeed:
-                return "°ø°İ ¼Óµµ";
+                return "ê³µê²© ì†ë„";
             case StatType.Damage:
-                return "ÇÇÇØ·®";
+                return "í”¼í•´ëŸ‰";
             case StatType.CritChance:
-                return "Ä¡¸íÅ¸ È®·ü";
+                return "ì¹˜ëª…íƒ€ í™•ë¥ ";
             case StatType.CritPower:
-                return "Ä¡¸íÅ¸ ÇÇÇØ·®";
+                return "ì¹˜ëª…íƒ€ í”¼í•´ëŸ‰";
             case StatType.ArmorReduction:
-                return "¹æ¾î±¸ °üÅë";
+                return "ë°©ì–´êµ¬ ê´€í†µ";
             case StatType.FireDamage:
-                return "È­¿° ÇÇÇØ";
+                return "í™”ì—¼ í”¼í•´";
             case StatType.IceDamage:
-                return "³Ã±â ÇÇÇØ";
+                return "ëƒ‰ê¸° í”¼í•´";
             case StatType.LightningDamage:
-                return "¹ø°³ ÇÇÇØ";
+                return "ë²ˆê°œ í”¼í•´";
             case StatType.Armor:
-                return "¹æ¾î·Â";
+                return "ë°©ì–´ë ¥";
             case StatType.Evasion:
-                return "È¸ÇÇÀ²";
+                return "íšŒí”¼ìœ¨";
             case StatType.IceResistance:
-                return "³Ã±â ÀúÇ×·Â";
+                return "ëƒ‰ê¸° ì €í•­ë ¥";
             case StatType.FireResistance:
-                return "È­¿° ÀúÇ×·Â";
+                return "í™”ì—¼ ì €í•­ë ¥";
             case StatType.LightningResistance:
-                return "¹ø°³ ÀúÇ×·Â";
+                return "ë²ˆê°œ ì €í•­ë ¥";
             default:
                 return "???";
 

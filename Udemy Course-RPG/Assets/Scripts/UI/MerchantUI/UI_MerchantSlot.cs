@@ -15,34 +15,52 @@ public class UI_MerchantSlot : UI_ItemSlot
 
         bool rightClick = eventData.button == PointerEventData.InputButton.Right;
         bool leftClick = eventData.button == PointerEventData.InputButton.Left;
-        if (slotType == MerchantSlotType.PlayerSlot) // ÇÃ·¹ÀÌ¾î ½½·Ô¿¡¼­ ¿À¸¥ÂÊ Å¬¸¯Àº ÆÇ¸Å, ¿ŞÂÊ Å¬¸¯Àº ÀåÂø
+
+        if (slotType == MerchantSlotType.PlayerSlot)
         {
-            if (rightClick)
+            if (rightClick) // ìš°í´ë¦­ â†’ íŒë§¤
             {
-                bool sellfullStack =  Input.GetKey(KeyCode.LeftControl);
-                if(merchantInventory == null)
+                bool sellFullStack = Input.GetKey(KeyCode.LeftControl);
+                if (merchantInventory == null)
                 {
-                    Debug.Log("»óÀÎ ÀÎº¥Åä¸®°¡ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                    Debug.Log("ìƒì¸ ì¸ë²¤í† ë¦¬ê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
                     return;
                 }
-                merchantInventory.TrySellItem(itemInSlot, sellfullStack);
-
+                merchantInventory.TrySellItem(itemInSlot, sellFullStack);
             }
-            else if (leftClick)
+            else if (leftClick) // ì¢Œí´ë¦­ â†’ ì¥ì°© (ì¥ì°© ê°€ëŠ¥í•œ ì•„ì´í…œë§Œ)
             {
-                base.OnPointerDown(eventData);
+                if (itemInSlot.itemData.itemType == ItemType.Weapon ||
+                    itemInSlot.itemData.itemType == ItemType.Armor ||
+                    itemInSlot.itemData.itemType == ItemType.Trinket)
+                {
+                    base.OnPointerDown(eventData);
+                }
             }
         }
-        else if (slotType == MerchantSlotType.MerchantSlot) // »óÀÎ ½½·Ô¿¡¼­ ¿À¸¥ÂÊ Å¬¸¯Àº ±¸¸Å
+        else if (slotType == MerchantSlotType.MerchantSlot)
         {
             if (leftClick) return;
-            else if (rightClick)
+            else if (rightClick) // ìš°í´ë¦­ â†’ êµ¬ë§¤
             {
                 bool buyFullStack = Input.GetKey(KeyCode.LeftControl);
                 merchantInventory.TryBuyItem(itemInSlot, buyFullStack);
             }
         }
+
         ui.toolTip.ShowToolTip(false, null);
+    }
+    override public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (itemInSlot == null) return;
+        if (slotType == MerchantSlotType.PlayerSlot)
+        {
+            ui.itemToolTip.ShowToolTip(true,rectTransform, itemInSlot,false,true);
+        }
+        else if (slotType == MerchantSlotType.MerchantSlot)
+        {
+            ui.itemToolTip.ShowToolTip(true, rectTransform,itemInSlot,true,true);
+        }
     }
     public void SetupMerchantUI(Inventory_Merchant merchantInventory)
     {

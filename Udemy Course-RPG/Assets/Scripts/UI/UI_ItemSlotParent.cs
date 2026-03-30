@@ -4,7 +4,7 @@ public class UI_ItemSlotParent : MonoBehaviour
 {
     private UI_ItemSlot[] slots;
 
-    //ÇÏÀÌ¶óÀÌÅ°Â÷¿¡¼­ ÀÚ½Ä³ëµåµéÀÇ ½½·ÔµéÀÇ ¾÷µ¥ÀÌÆ® ÇÔ¼ö¸¦ ½ÇÇà
+    //í•˜ì´ë¼ì´í‚¤ì°½ì—ì„œ ìì‹ë…¸ë“œë“¤ì˜ ìŠ¬ë¡¯ë“¤ì˜ ì—…ë°ì´íŠ¸ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
     public void UpdateSlots(List<Inventory_Item> itemList)
     {
         if(slots == null)

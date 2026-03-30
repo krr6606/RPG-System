@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
+
 public class Inventory_Merchant : Inventory_Base
 {
     private Inventory_Player playerInventory;
@@ -7,7 +8,6 @@ public class Inventory_Merchant : Inventory_Base
     [SerializeField] private ItemListDataSO shopData;
     [SerializeField] private int minItemsAmount = 5;
 
-     
     protected override void Start()
     {
         base.Start();
@@ -17,35 +17,44 @@ public class Inventory_Merchant : Inventory_Base
     public void TryBuyItem(Inventory_Item itemToBuy, bool buyFullStack)
     {
         int amountToBuy = buyFullStack ? itemToBuy.itemStackSize : 1;
-        if(playerInventory.gold < itemToBuy.buyPrice * amountToBuy)
+        if (playerInventory.gold < itemToBuy.buyPrice * amountToBuy)
         {
             Debug.Log("골드가 부족합니다.");
             return;
         }
 
+        int amountBought = 0;
+
         for (int i = 0; i < amountToBuy; ++i)
         {
-           if(itemToBuy.itemData.itemType == ItemType.Matetial)
+            if (itemToBuy.itemData.itemType == ItemType.Matetial)
             {
                 playerInventory.storage.AddMaterialToStash(itemToBuy);
                 RemoveOneItem(itemToBuy);
+                amountBought++;
             }
             else
             {
-                if(playerInventory.CanAddItem(itemToBuy))
+                if (playerInventory.CanAddItem(itemToBuy))
                 {
                     playerInventory.AddItem(itemToBuy);
                     RemoveOneItem(itemToBuy);
+                    amountBought++;
                 }
                 else
                 {
                     Debug.Log("인벤토리에 공간이 없습니다.");
-                    return; 
+                    break;
                 }
             }
         }
-        playerInventory.gold -= itemToBuy.buyPrice * amountToBuy;
-        TriggerUpdateUI();
+
+        if (amountBought > 0)
+        {
+            playerInventory.gold -= itemToBuy.buyPrice * amountBought;
+            playerInventory.TriggerUpdateUI();
+            TriggerUpdateUI();
+        }
     }
 
     public void TrySellItem(Inventory_Item itemToSell, bool sellFullStack)
@@ -61,24 +70,22 @@ public class Inventory_Merchant : Inventory_Base
         TriggerUpdateUI();
     }
 
-
     public void FillShopList()
     {
         itemList.Clear();
-        List<Inventory_Item> possibleItems = new List<Inventory_Item>(); // ItemListDataSO의 아이템들을 Inventory_Item으로 변환하여 저장할 리스트
+        List<Inventory_Item> possibleItems = new List<Inventory_Item>();
 
-        foreach(var itemData in shopData.itemList)
+        foreach (ItemDataSO itemData in shopData.itemList)
         {
-            // 아이템의 스택 사이즈를 랜덤으로 결정
-            int randomizedStackSize = Random.Range(itemData.minStackSizeAtShop, itemData.maxStackSizeAtShop + 1); 
-            int finalStackSize = Mathf.Clamp(randomizedStackSize,1, itemData.maxStackSize); 
+            int randomizedStackSize = Random.Range(itemData.minStackSizeAtShop, itemData.maxStackSizeAtShop + 1);
+            int finalStackSize = Mathf.Clamp(randomizedStackSize, 1, itemData.maxStackSize);
 
-            Inventory_Item itemTOAdd = new Inventory_Item(itemData);
-            itemTOAdd.itemStackSize = finalStackSize;
+            Inventory_Item itemToAdd = new Inventory_Item(itemData);
+            itemToAdd.itemStackSize = finalStackSize;
 
-            possibleItems.Add(itemTOAdd);
+            possibleItems.Add(itemToAdd);
         }
-        // 가능한 아이템 리스트에서 랜덤으로 아이템을 선택하여 상점에 추가
+
         int randomItemAmount = Random.Range(minItemsAmount, MaxInventorySize + 1);
         int finalItemAmount = Mathf.Clamp(randomItemAmount, 1, possibleItems.Count);
 
@@ -88,11 +95,10 @@ public class Inventory_Merchant : Inventory_Base
             Inventory_Item itemToAdd = possibleItems[randomIndex];
             if (CanAddItem(itemToAdd))
             {
-                possibleItems.Remove(itemToAdd); // 중복 아이템 제거
+                possibleItems.Remove(itemToAdd);
                 itemList.Add(itemToAdd);
             }
-
-        } 
+        }
         TriggerUpdateUI();
     }
 

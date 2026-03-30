@@ -5,7 +5,7 @@ public class Inventory_Player : Inventory_Base
 {
     private Player player;
     public int gold;
-    public List<Inventory_EquipmentSlot> equipmentSlots;
+    public List<Inventory_EquipmentSlot> equipmentList;
     public Inventory_Storage storage { get; private set; }
     protected override void Awake()
     {
@@ -16,17 +16,32 @@ public class Inventory_Player : Inventory_Base
 
     public void TryEquipItem(Inventory_Item item)
     {
-        var inventory_Item = FindCanAddItem(item.itemData);
-        var matchingSlot = equipmentSlots.FindAll(slot => slot.slotType == item.itemData.itemType);
+        Inventory_Item inventory_Item = FindCanAddItem(item.itemData);
+
+        if (inventory_Item == null)
+        {
+            Debug.Log("ì¸ë²¤í† ë¦¬ì—ì„œ í•´ë‹¹ ì•„ì´í…œì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+            return;
+        }
+
         if (inventory_Item.itemData.itemType != ItemType.Weapon &&
             inventory_Item.itemData.itemType != ItemType.Armor &&
             inventory_Item.itemData.itemType != ItemType.Trinket)
         {
-            Debug.Log("ÀåºñÇÒ ¼ö ¾ø´Â ¾ÆÀÌÅÛÀÔ´Ï´Ù.");
+            Debug.Log("ì¥ë¹„í•  ìˆ˜ ì—†ëŠ” ì•„ì´í…œì…ë‹ˆë‹¤.");
             return;
         }
-        //ÀÏÄ¡ÇÏ´Â Àåºñ ½½·ÔÀÌ ¾ø´Â °æ¿ì Ã¼Å©
-        foreach (var slot in matchingSlot)
+
+        List<Inventory_EquipmentSlot> matchingSlot = equipmentList.FindAll(slot => slot.slotType == item.itemData.itemType);
+
+        if (matchingSlot.Count == 0)
+        {
+            Debug.Log("í•´ë‹¹ ì•„ì´í…œ íƒ€ì…ì— ë§ëŠ” ì¥ë¹„ ìŠ¬ë¡¯ì´ ì—†ìŠµë‹ˆë‹¤.");
+            return;
+        }
+
+        // ì¼ì¹˜í•˜ëŠ” ì¥ë¹„ ìŠ¬ë¡¯ì´ ì—†ëŠ” ê²½ìš° ì²´í¬
+        foreach (Inventory_EquipmentSlot slot in matchingSlot)
         {
             if (slot.IsEmpty())
             {
@@ -35,10 +50,9 @@ public class Inventory_Player : Inventory_Base
             }
         }
 
-        //¸ğµç Àåºñ ½½·ÔÀÌ Ã¡À» °æ¿ì Ã³¸®
-        var slotToReplace = matchingSlot[0];
-        var itemToReplace = slotToReplace.storedItem;
-        UnequipItem(slotToReplace.storedItem,slotToReplace != null);
+        // ëª¨ë“  ì¥ë¹„ ìŠ¬ë¡¯ì´ ì°¼ì„ ê²½ìš° ì²˜ë¦¬
+        Inventory_EquipmentSlot slotToReplace = matchingSlot[0];
+        UnequipItem(slotToReplace.storedItem, true); //í•´ì œ í›„ ì¥ì°©
         EquipItem(inventory_Item, slotToReplace);
     }
     private void EquipItem(Inventory_Item itemToEquip, Inventory_EquipmentSlot slot)
@@ -56,13 +70,13 @@ public class Inventory_Player : Inventory_Base
     {
         if (CanAddItem(itemToUnquip) == false && replacingItem == false)
         {
-            Debug.Log("ÀÎº¥Åä¸®¿¡ °ø°£ÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log("ì¸ë²¤í† ë¦¬ì— ê³µê°„ì´ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         float savedHealthPercent = player.health.GetHealthPercentage();
 
-        var slotToUnequip = equipmentSlots.Find(slot => slot.storedItem == itemToUnquip);
+        var slotToUnequip = equipmentList.Find(slot => slot.storedItem == itemToUnquip);
         if(slotToUnequip != null)
         {
             slotToUnequip.storedItem = null;
